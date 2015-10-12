@@ -17,28 +17,32 @@ trait CustomersServiceRoute extends CustomersService with BaseServiceRoute {
   val customersRoute = pathPrefix("customers") {
     pathEndOrSingleSlash {
       get {
-        complete(getCustomers().map(_.toJson))
+        complete("")
+//        complete(getCustomers().map(_.toJson))
       } ~
         post {
           entity(as[CustomerEntity]) { customerAdd =>
-            complete(Created -> createCustomer(customerAdd).map(_.toJson))
+//            complete(Created -> createCustomer(customerAdd).map(_.toJson))
+            complete(Created -> "")
           }
         }
     } ~
       pathPrefix(IntNumber) { id =>
         pathEndOrSingleSlash {
           get {
-            complete(getCustomerById(id).map(_.toJson))
+//            complete(getCustomerById(id).map(_.toJson))
+            complete("")
           } ~
             post {
               entity(as[CustomerEntityUpdate]) { customerUpdate =>
-                complete(updateCustomer(id, customerUpdate).map(_.toJson))
+//                complete(updateCustomer(id, customerUpdate).map(_.toJson))
+                complete("")
               }
             } ~
             delete {
-              onSuccess(deleteCustomer(id)) { ignored =>
+//              onSuccess(deleteCustomer(id)) { ignored =>
                 complete(NoContent)
-              }
+//              }
             }
         }
       }
