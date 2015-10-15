@@ -1,6 +1,6 @@
 package com.example.crudapi.utils
 
-import org.joda.time.{DateTime, DateTimeZone}
+import com.github.nscala_time.time.Imports._
 
 trait DateUtils {
 
