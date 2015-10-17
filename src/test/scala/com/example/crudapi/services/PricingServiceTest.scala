@@ -1,13 +1,14 @@
 package com.example.crudapi.services
 
-import com.example.crudapi.utils.DateUtils
+import com.example.crudapi.utils.{PricingConfig, DateUtils}
+import com.typesafe.config.ConfigFactory
 import org.joda.time.DateTime
 import org.scalatest.{Matchers, WordSpec}
 import com.github.nscala_time.time.Imports._
 
 class PricingServiceTest extends WordSpec with Matchers with DateUtils {
 
-  private val pricingService = new PricingService
+  private val pricingService = new PricingService(PricingConfig(ConfigFactory.load("pricing")))
 
   "calculatePrice" should {
 
