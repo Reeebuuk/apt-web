@@ -4,8 +4,6 @@ import com.example.crudapi.utils.{DateUtils, PricingConfig}
 
 import scala.annotation.tailrec
 
-case class PricePerPeriod(from: Long, to: Long, appPrice: Map[Int, Int])
-
 class PricingService(pricingConfig: PricingConfig) extends DateUtils {
 
   def calculatePrice(apartmentId: Int, from: Long, to: Long): Int = {
