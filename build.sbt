@@ -14,6 +14,7 @@ resolvers += "Sonatype releases" at "http://repo.typesafe.com/typesafe/releases/
 
 libraryDependencies ++= {
   val akkaStreamV        = "1.0"
+  val akkaV              = "2.4.0"
   val scalaTestV         = "3.0.0-M1"
   val scalaMockV         = "3.2.2"
   val slf4jVersion       = "1.6.4"
@@ -29,7 +30,8 @@ libraryDependencies ++= {
     "org.reactivemongo"      %% "reactivemongo"                        % rMongoVersion,
     "org.reactivemongo"      %% "reactivemongo-bson-macros"            % rMongoVersion,
     "com.github.nscala-time" %% "nscala-time"                          % nscalaVersion,
-    "de.flapdoodle.embed"    % "de.flapdoodle.embed.mongo"            % inMemMongoVersion % "test",
+    "com.typesafe.akka"      %% "akka-typed-experimental"              % akkaV,
+    "de.flapdoodle.embed"    % "de.flapdoodle.embed.mongo"             % inMemMongoVersion % "test",
     "org.scalatest"          %% "scalatest"                            % scalaTestV        % "test",
     "org.scalamock"          %% "scalamock-scalatest-support"          % scalaMockV        % "test",
     "com.typesafe.akka"      %% "akka-http-testkit-experimental"       % akkaStreamV       % "test"
