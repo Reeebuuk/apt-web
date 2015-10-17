@@ -2,7 +2,7 @@ package com.example.crudapi.services
 
 import com.example.crudapi.utils.{DateUtils, PricingConfig}
 import com.typesafe.config.ConfigFactory
-import org.joda.time.{DateTimeZone, DateTime}
+import org.joda.time.{DateTime, DateTimeZone}
 import org.scalatest.{Matchers, WordSpec}
 
 import scala.concurrent.Await
@@ -32,7 +32,7 @@ class PricingServiceActorsTest extends WordSpec with Matchers with DateUtils {
       val today = new DateTime().toDateTime(DateTimeZone.UTC).withDate(2015, 7, 19).withTime(12, 0, 0, 0).getMillis
       val tomorrow = new DateTime(today).plusDays(7).getMillis
 
-      Await.result(pricingService.calculatePrice(1, today, tomorrow), 5 seconds) shouldBe 345
+      Await.result(pricingService.calculatePrice(1, today, tomorrow), 5 seconds) shouldBe 340
     }
 
     "return correct price if the duration is 7 day in different years" in {
