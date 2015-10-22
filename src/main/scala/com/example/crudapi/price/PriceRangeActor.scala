@@ -44,27 +44,32 @@ class PriceRangeActor(pricingConfig: PricingConfig) extends PersistentActor with
 
   val priceRangeCalculations = mutable.Map[Int, PriceForDay]()
 
+  def stageTwo(nextState: caseClass) : Recieve = {
+  }
+  
+  def stageOne(myState: caseClass) : Recieve = {
+      case newMessage => { 
+          become(stageTwo(myState ++ thisState))
+      }
+  }
   override def receiveCommand: Receive = {
     case CalculatePriceForRange(userId, unitId, from, to) => {
       val fromDate = new DateTime(from).toDateTime(DateTimeZone.UTC)
       val toDate = new DateTime(to).toDateTime(DateTimeZone.UTC)
       val duration = Days.daysBetween(fromDate.toLocalDate, toDate.toLocalDate).getDays
 
-      val individualDays: IndexedSeq[Future[DailyPriceCalculated]] = (0 until duration).map(daysFromStart => {
+      (0 until duration).map(daysFromStart => {
         val day = new DateTime(from).toDateTime(DateTimeZone.UTC).plusDays(daysFromStart).getMillis
-        (dailyPriceActor ? CalculatePriceForDay(unitId, day)).mapTo[DailyPriceCalculated]
+        (dailyPriceActor ! CalculatePriceForDay(unitId, day))
       })
 
-      val sumF = Future.sequence(individualDays).map(_.foldLeft(BigDecimal(0))((sum, next) => sum + next.price))
-      val sum = Await.result(sumF, Duration.Inf)
-
-      persist(PriceForRangeCalculated(userId, unitId, from, to, sum))(evt => {
-        sender() ! evt
-      })
+ //     persist(PriceForRangeCalculated(userId, unitId, from, to, sum))(evt => {
+ //       sender() ! evt
+//})
     }
-    /*    case DailyPriceCalculated(unitId, day, price) => {
+       case DailyPriceCalculated(unitId, day, price) => {
           priceRangeCalculations(unitId) = PriceForDay(day, price)
-        }*/
+        }
 
   }
 
