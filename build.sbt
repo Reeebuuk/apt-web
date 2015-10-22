@@ -23,18 +23,20 @@ libraryDependencies ++= {
   val nscalaVersion      = "2.2.0"
 
   Seq(
-    "com.typesafe.akka"      %% "akka-stream-experimental"             % akkaStreamV,
-    "com.typesafe.akka"      %% "akka-http-core-experimental"          % akkaStreamV,
-    "com.typesafe.akka"      %% "akka-http-spray-json-experimental"    % akkaStreamV,
-    "org.slf4j"              %  "slf4j-nop"                            % slf4jVersion,
-    "org.reactivemongo"      %% "reactivemongo"                        % rMongoVersion,
-    "org.reactivemongo"      %% "reactivemongo-bson-macros"            % rMongoVersion,
-    "com.github.nscala-time" %% "nscala-time"                          % nscalaVersion,
-    "com.typesafe.akka"      %% "akka-typed-experimental"              % akkaV,
-    "de.flapdoodle.embed"    % "de.flapdoodle.embed.mongo"             % inMemMongoVersion % "test",
-    "org.scalatest"          %% "scalatest"                            % scalaTestV        % "test",
-    "org.scalamock"          %% "scalamock-scalatest-support"          % scalaMockV        % "test",
-    "com.typesafe.akka"      %% "akka-http-testkit-experimental"       % akkaStreamV       % "test"
+    "com.typesafe.akka" %% "akka-contrib" % akkaV,
+    "com.github.michaelpisula" %% "akka-persistence-inmemory" % "0.2.1",
+    "com.typesafe.akka" %% "akka-stream-experimental" % akkaStreamV,
+    "com.typesafe.akka" %% "akka-http-core-experimental" % akkaStreamV,
+    "com.typesafe.akka" %% "akka-http-spray-json-experimental" % akkaStreamV,
+    "org.slf4j" % "slf4j-nop" % slf4jVersion,
+    "org.reactivemongo" %% "reactivemongo" % rMongoVersion,
+    "org.reactivemongo" %% "reactivemongo-bson-macros" % rMongoVersion,
+    "com.github.nscala-time" %% "nscala-time" % nscalaVersion,
+    "com.typesafe.akka" %% "akka-typed-experimental" % akkaV,
+    "de.flapdoodle.embed" % "de.flapdoodle.embed.mongo" % inMemMongoVersion % "test",
+    "org.scalatest" %% "scalatest" % scalaTestV % "test",
+    "org.scalamock" %% "scalamock-scalatest-support" % scalaMockV % "test",
+    "com.typesafe.akka" %% "akka-http-testkit-experimental" % akkaStreamV % "test"
   )
 }
 
