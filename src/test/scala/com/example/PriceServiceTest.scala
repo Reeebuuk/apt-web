@@ -3,7 +3,6 @@ package com.example
 import akka.http.scaladsl.model.StatusCodes._
 import akka.http.scaladsl.model.{HttpEntity, MediaTypes, StatusCodes}
 import com.example.crudapi.db.model.Booking
-import com.example.crudapi.domain.CustomerEntity
 import org.scalatest.concurrent.ScalaFutures
 import reactivemongo.api.commands.WriteResult
 import reactivemongo.bson.Macros
@@ -12,7 +11,7 @@ import spray.json._
 import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, Future}
 
-class CustomersServiceTest extends BaseServiceTest with ScalaFutures {
+class PriceServiceTest extends BaseServiceTest with ScalaFutures {
 
   val newCustomer = CustomerEntity(firstname = "New", lastname = "New", email = "a@b.com", phone = "3333")
 

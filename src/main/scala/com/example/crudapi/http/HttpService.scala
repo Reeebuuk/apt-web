@@ -1,16 +1,14 @@
 package com.example.crudapi.http
 
+import akka.actor.ActorRef
 import akka.http.scaladsl.server.Directives._
 import com.example.crudapi.http.routes._
-import com.example.crudapi.utils.CorsSupport
 
-trait HttpService extends CustomersServiceRoute with CorsSupport {
+trait HttpService extends PriceServiceRoute {
 
-  val routes =
+  def routes(command: ActorRef, query: ActorRef) =
     pathPrefix("v1") {
-      corsHandler {
-        customersRoute
-      }
+      customersRoute
     }
 
 }

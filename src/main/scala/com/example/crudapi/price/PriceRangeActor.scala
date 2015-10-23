@@ -1,20 +1,16 @@
 package com.example.crudapi.price
 
 import akka.actor.{ActorLogging, Props}
-import akka.pattern.ask
 import akka.persistence.PersistentActor
 import akka.util.Timeout
 import com.example.crudapi.MainActorSystem
 import com.example.crudapi.price.DailyPriceActor.CalculatePriceForDay
-import com.example.crudapi.price.PriceProtocol.{DailyPriceCalculated, PriceForRangeCalculated}
+import com.example.crudapi.price.PriceProtocol.DailyPriceCalculated
 import com.example.crudapi.utils.PricingConfig
 import org.joda.time.{DateTime, DateTimeZone, Days}
 
-import scala.collection.immutable.IndexedSeq
 import scala.collection.mutable
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.duration.{Duration, DurationInt}
-import scala.concurrent.{Await, Future}
+import scala.concurrent.duration.DurationInt
 
 object PriceRangeActor {
 
@@ -44,14 +40,14 @@ class PriceRangeActor(pricingConfig: PricingConfig) extends PersistentActor with
 
   val priceRangeCalculations = mutable.Map[Int, PriceForDay]()
 
-  def stageTwo(nextState: caseClass) : Recieve = {
-  }
-  
-  def stageOne(myState: caseClass) : Recieve = {
-      case newMessage => { 
-          become(stageTwo(myState ++ thisState))
-      }
-  }
+  /*  def stageTwo(nextState: caseClass) : Recieve = {
+    }
+
+    def stageOne(myState: caseClass) : Recieve = {
+        case newMessage => {
+            become(stageTwo(myState ++ thisState))
+        }
+    }*/
   override def receiveCommand: Receive = {
     case CalculatePriceForRange(userId, unitId, from, to) => {
       val fromDate = new DateTime(from).toDateTime(DateTimeZone.UTC)

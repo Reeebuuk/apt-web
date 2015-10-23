@@ -6,4 +6,7 @@ trait AppConfig {
   private val config = ConfigFactory.load()
   val httpConfig = config.getConfig("http")
   val pricingConfig = ConfigFactory.load("pricing")
+
+  val httpInterface = httpConfig.getString("interface")
+  val httpPort = httpConfig.getInt("port")
 }

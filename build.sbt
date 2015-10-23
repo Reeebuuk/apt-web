@@ -24,11 +24,15 @@ libraryDependencies ++= {
 
   Seq(
     "com.typesafe.akka" %% "akka-contrib" % akkaV,
+    "com.typesafe.akka" %% "akka-remote" % akkaV,
+    "com.typesafe.akka" %% "akka-cluster" % akkaV,
     "com.github.michaelpisula" %% "akka-persistence-inmemory" % "0.2.1",
     "com.typesafe.akka" %% "akka-stream-experimental" % akkaStreamV,
     "com.typesafe.akka" %% "akka-http-core-experimental" % akkaStreamV,
     "com.typesafe.akka" %% "akka-http-spray-json-experimental" % akkaStreamV,
+    "com.typesafe.scala-logging" %% "scala-logging" % "3.0.0",
     "org.slf4j" % "slf4j-nop" % slf4jVersion,
+    "org.json4s" %% "json4s-native" % "3.2.11",
     "org.reactivemongo" %% "reactivemongo" % rMongoVersion,
     "org.reactivemongo" %% "reactivemongo-bson-macros" % rMongoVersion,
     "com.github.nscala-time" %% "nscala-time" % nscalaVersion,
