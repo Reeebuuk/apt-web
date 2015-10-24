@@ -10,6 +10,7 @@ import org.joda.time.{DateTime, DateTimeZone, Days}
 import scala.collection.immutable.IndexedSeq
 import scala.concurrent.Future
 import scala.concurrent.duration._
+import scala.language.postfixOps
 
 class PricingServiceActors(pricingConfig: PricingConfig) extends DateUtils {
 

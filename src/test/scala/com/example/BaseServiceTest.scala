@@ -1,11 +1,7 @@
 package com.example
 
-import java.sql.Date
-
 import akka.event.{LoggingAdapter, NoLogging}
 import akka.http.scaladsl.testkit.ScalatestRouteTest
-import com.example.crudapi.db.model.Booking
-import com.example.crudapi.domain.CustomerEntity
 import com.example.crudapi.http.HttpService
 import de.flapdoodle.embed.mongo.config.{MongodConfigBuilder, Net}
 import de.flapdoodle.embed.mongo.distribution.Version
@@ -13,10 +9,6 @@ import de.flapdoodle.embed.mongo.{MongodExecutable, MongodProcess, MongodStarter
 import org.scalatest._
 import reactivemongo.api._
 import reactivemongo.api.collections.bson.BSONCollection
-import reactivemongo.bson.Macros
-
-import scala.concurrent.Await
-import scala.concurrent.duration._
 
 trait BaseServiceTest extends WordSpec with Matchers with ScalatestRouteTest with HttpService with BeforeAndAfterAll{
   protected val log: LoggingAdapter = NoLogging

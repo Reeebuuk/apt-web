@@ -2,7 +2,7 @@ package com.example.crudapi.price
 
 import akka.actor.ActorSystem
 import akka.testkit.{ImplicitSender, TestKit}
-import com.example.crudapi.price.PriceProtocol.PriceForRangeCalculated
+import com.example.crudapi.price.PriceCommandQueryProtocol.PriceForRangeCalculated
 import com.example.crudapi.utils.{DateUtils, PricingConfig}
 import com.typesafe.config.ConfigFactory
 import org.joda.time.{DateTime, DateTimeZone}
@@ -27,8 +27,6 @@ with WordSpecLike with Matchers with BeforeAndAfterAll with DateUtils {
   }
 
   val priceConfig: PricingConfig = PricingConfig(ConfigFactory.load("pricing"))
-
-  import PriceRangeActor._
 
   "A PriceRangeActor" when {
     val today = new DateTime().toDateTime(DateTimeZone.UTC).withTime(12, 0, 0, 0).getMillis

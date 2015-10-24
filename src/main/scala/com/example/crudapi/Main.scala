@@ -10,7 +10,6 @@ import scala.concurrent.ExecutionContext
 
 object Main extends App with AppConfig with http.HttpService with MainActorSystem {
 
-
   val processor = system.actorOf(Props(), "processorActor")
   val view = system.actorOf(Props(), "processorActor")
 

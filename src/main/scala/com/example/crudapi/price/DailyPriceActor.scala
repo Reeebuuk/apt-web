@@ -1,18 +1,21 @@
 package com.example.crudapi.price
 
 import akka.actor.{Actor, ActorLogging, Props}
-import com.example.crudapi.price.PriceProtocol.DailyPriceCalculated
 import com.example.crudapi.utils.PricingConfig
 
 object DailyPriceActor {
 
-  sealed trait Command
+  sealed trait DailyPriceMsg {
+    val unitId: Int
+  }
 
-  case class CalculatePriceForDay(unitId: Int, day: Long) extends Command
+  sealed trait Query extends DailyPriceMsg
 
-  sealed trait Query
+  case class CalculatePriceForDay(unitId: Int, day: Long) extends Query
 
-  case object GetSalesRecords extends Query
+  sealed trait QueryResponse extends DailyPriceMsg
+
+  case class DailyPriceCalculated(unitId: Int, day: Long, price: BigDecimal) extends QueryResponse
 
   def props(pricingConfig: PricingConfig) = Props(new DailyPriceActor(pricingConfig))
 

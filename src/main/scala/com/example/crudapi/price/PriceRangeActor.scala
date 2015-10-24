@@ -5,7 +5,7 @@ import akka.persistence.PersistentActor
 import akka.util.Timeout
 import com.example.crudapi.MainActorSystem
 import com.example.crudapi.price.DailyPriceActor.CalculatePriceForDay
-import com.example.crudapi.price.PriceProtocol.DailyPriceCalculated
+import com.example.crudapi.price.PriceCommandQueryProtocol.CalculatePriceForRange
 import com.example.crudapi.utils.PricingConfig
 import org.joda.time.{DateTime, DateTimeZone, Days}
 
@@ -14,14 +14,6 @@ import scala.concurrent.duration.DurationInt
 
 object PriceRangeActor {
 
-  sealed trait Command
-
-  case class CalculatePriceForRange(userId: Int, unitId: Int, from: Long, to: Long) extends Command
-
-  sealed trait Query
-
-  case object GetSalesRecords extends Query
-
   def props(pricingConfig: PricingConfig) = Props(new PriceRangeActor(pricingConfig))
 
 }
@@ -29,8 +21,6 @@ object PriceRangeActor {
 case class PriceForDay(day: Long, var price: Option[BigDecimal] = None)
 
 class PriceRangeActor(pricingConfig: PricingConfig) extends PersistentActor with ActorLogging with MainActorSystem {
-
-  import PriceRangeActor._
 
   def persistenceId = "PriceRangeActor"
 
@@ -49,23 +39,23 @@ class PriceRangeActor(pricingConfig: PricingConfig) extends PersistentActor with
         }
     }*/
   override def receiveCommand: Receive = {
-    case CalculatePriceForRange(userId, unitId, from, to) => {
+    case CalculatePriceForRange(unitId, from, to) => {
       val fromDate = new DateTime(from).toDateTime(DateTimeZone.UTC)
       val toDate = new DateTime(to).toDateTime(DateTimeZone.UTC)
       val duration = Days.daysBetween(fromDate.toLocalDate, toDate.toLocalDate).getDays
 
       (0 until duration).map(daysFromStart => {
         val day = new DateTime(from).toDateTime(DateTimeZone.UTC).plusDays(daysFromStart).getMillis
-        (dailyPriceActor ! CalculatePriceForDay(unitId, day))
+        dailyPriceActor ! CalculatePriceForDay(unitId, day)
       })
 
  //     persist(PriceForRangeCalculated(userId, unitId, from, to, sum))(evt => {
  //       sender() ! evt
 //})
     }
-       case DailyPriceCalculated(unitId, day, price) => {
-          priceRangeCalculations(unitId) = PriceForDay(day, price)
-        }
+    //       case DailyPriceCalculated(unitId, day, price) => {
+    //          priceRangeCalculations(unitId) = PriceForDay(day, price)
+    //        }
 
   }
 

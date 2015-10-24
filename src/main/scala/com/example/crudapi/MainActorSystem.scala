@@ -4,6 +4,7 @@ import akka.actor.ActorSystem
 
 trait MainActorSystem {
 
-  val system = ActorSystem("booking")
+  implicit val system = ActorSystem("booking")
+
 
 }

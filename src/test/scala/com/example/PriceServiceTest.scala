@@ -2,7 +2,6 @@ package com.example
 
 import akka.http.scaladsl.model.StatusCodes._
 import akka.http.scaladsl.model.{HttpEntity, MediaTypes, StatusCodes}
-import com.example.crudapi.db.model.Booking
 import org.scalatest.concurrent.ScalaFutures
 import reactivemongo.api.commands.WriteResult
 import reactivemongo.bson.Macros

@@ -8,7 +8,7 @@ trait HttpService extends PriceServiceRoute {
 
   def routes(command: ActorRef, query: ActorRef) =
     pathPrefix("v1") {
-      customersRoute
+      customersRoute(command, query)
     }
 
 }
