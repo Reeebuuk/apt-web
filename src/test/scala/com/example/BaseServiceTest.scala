@@ -13,13 +13,6 @@ import reactivemongo.api.collections.bson.BSONCollection
 trait BaseServiceTest extends WordSpec with Matchers with ScalatestRouteTest with BaseService with BeforeAndAfterAll {
   protected val log: LoggingAdapter = NoLogging
 
-
-  val testCustomers = Seq(
-    CustomerEntity(Some(1), "Dan", "Todor", "a@b.com", "1234"),
-    CustomerEntity(Some(2), "John", "Doe", "b@c.com", "2345"),
-    CustomerEntity(Some(3), "Jane", "Doe", "c@d.com", "3456")
-  )
-
   def url = "localhost"
   def port = 6667
   def version = Version.V3_0_5
