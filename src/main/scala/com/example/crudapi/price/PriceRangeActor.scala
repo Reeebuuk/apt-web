@@ -1,10 +1,11 @@
 package com.example.crudapi.price
 
-import akka.actor.{ActorLogging, Props}
+import akka.actor.{ActorLogging, Props, Terminated}
 import akka.persistence.PersistentActor
+import akka.routing.{ActorRefRoutee, RoundRobinRoutingLogic, Router}
 import akka.util.Timeout
-import com.example.crudapi.price.DailyPriceActor.CalculatePriceForDay
-import com.example.crudapi.price.PriceCommandQueryProtocol.CalculatePriceForRange
+import com.example.crudapi.price.DailyPriceActor.{CalculatePriceForDay, DailyPriceCalculated}
+import com.example.crudapi.price.PriceCommandQueryProtocol.{CalculatePriceForRange, PriceForRangeCalculated}
 import com.example.crudapi.utils.PricingConfig
 import org.joda.time.{DateTime, DateTimeZone, Days}
 
@@ -28,16 +29,17 @@ class PriceRangeActor(pricingConfig: PricingConfig) extends PersistentActor with
 
   val dailyPriceActor = context.actorOf(DailyPriceActor.props(pricingConfig), "DailyPriceActor")
 
-  val priceRangeCalculations = mutable.Map[Int, PriceForDay]()
+  val priceRangeCalculations = mutable.Map[Long, Option[BigDecimal]]()
 
-  /*  def stageTwo(nextState: caseClass) : Recieve = {
+  var router = {
+    val routees = Vector.fill(5) {
+      val r = context.actorOf(Props[DailyPriceActor])
+      context watch r
+      ActorRefRoutee(r)
     }
+    Router(RoundRobinRoutingLogic(), routees)
+  }
 
-    def stageOne(myState: caseClass) : Recieve = {
-        case newMessage => {
-            become(stageTwo(myState ++ thisState))
-        }
-    }*/
   override def receiveCommand: Receive = {
     case CalculatePriceForRange(unitId, from, to) => {
       val fromDate = new DateTime(from).toDateTime(DateTimeZone.UTC)
@@ -46,16 +48,24 @@ class PriceRangeActor(pricingConfig: PricingConfig) extends PersistentActor with
 
       (0 until duration).foreach(daysFromStart => {
         val day = new DateTime(from).toDateTime(DateTimeZone.UTC).plusDays(daysFromStart).getMillis
-        dailyPriceActor ! CalculatePriceForDay(unitId, day)
+        priceRangeCalculations + (day -> None)
+        router.route(CalculatePriceForDay(unitId, day), sender())
       })
-
- //     persist(PriceForRangeCalculated(userId, unitId, from, to, sum))(evt => {
- //       sender() ! evt
-//})
     }
-    //       case DailyPriceCalculated(unitId, day, price) => {
-    //          priceRangeCalculations(unitId) = PriceForDay(day, price)
-    //        }
+
+    case DailyPriceCalculated(unitId, day, price) => {
+      priceRangeCalculations + (day -> Option(price))
+      if (priceRangeCalculations.values.forall(_.isDefined)) {
+        PriceForRangeCalculated(unitId, priceRangeCalculations.values.sum.get)
+      }
+    }
+
+    case Terminated(a) => {
+      router = router.removeRoutee(a)
+      val r = context.actorOf(Props[DailyPriceActor])
+      context watch r
+      router = router.addRoutee(r)
+    }
 
   }
 

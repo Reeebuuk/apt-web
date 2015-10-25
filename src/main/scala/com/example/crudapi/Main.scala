@@ -18,9 +18,9 @@ object Main extends App with AppConfig with BaseService with MainActorSystem {
   override protected val log: LoggingAdapter = Logging(system, getClass)
   override protected implicit val materializer: ActorMaterializer = ActorMaterializer()
 
-  Http().bindAndHandle(routes(processor, view), httpInterface, httpPort)
+  //  val router2: ActorRef =
+  //    system.actorOf(RoundRobinPool(5).props(Props[DailyPriceActor]), "DailyPriceActorRoutes")
 
-  //  val binding = Http().bindAndHandleAsync({ case req@HttpRequest(_, Uri.Path("/admin"), _, _, _) =>
-  //    Future(HttpResponse())}, interface = "localhost", port= 121)
+  Http().bindAndHandle(routes(processor, view), httpInterface, httpPort)
 }
 
