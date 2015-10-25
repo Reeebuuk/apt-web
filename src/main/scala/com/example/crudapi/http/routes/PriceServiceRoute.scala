@@ -36,7 +36,7 @@ trait PriceServiceRoute extends BaseServiceRoute {
               priceForRange.to
             )).mapTo[PriceQueryResponse]) {
               case Success(s) => s match {
-                case PriceForRangeCalculated(unitId, from, to, price) =>
+                case PriceForRangeCalculated(unitId, price) =>
                   complete(write(PriceForRangeDto(unitId, price)))
                 case InvalidRange(unitId) =>
                   complete(write(ErrorDto(unitId, "ERROR")))

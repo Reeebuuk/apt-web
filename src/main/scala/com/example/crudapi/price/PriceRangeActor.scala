@@ -56,7 +56,8 @@ class PriceRangeActor(pricingConfig: PricingConfig) extends PersistentActor with
     case DailyPriceCalculated(unitId, day, price) => {
       priceRangeCalculations + (day -> Option(price))
       if (priceRangeCalculations.values.forall(_.isDefined)) {
-        PriceForRangeCalculated(unitId, priceRangeCalculations.values.sum.get)
+        PriceForRangeCalculated(unitId,
+          priceRangeCalculations.values.foldLeft(BigDecimal(0))((sum, value) => sum + value.get))
       }
     }
 
