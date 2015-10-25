@@ -2,7 +2,7 @@ package com.example
 
 import akka.event.{LoggingAdapter, NoLogging}
 import akka.http.scaladsl.testkit.ScalatestRouteTest
-import com.example.crudapi.http.HttpService
+import com.example.crudapi.http.BaseService
 import de.flapdoodle.embed.mongo.config.{MongodConfigBuilder, Net}
 import de.flapdoodle.embed.mongo.distribution.Version
 import de.flapdoodle.embed.mongo.{MongodExecutable, MongodProcess, MongodStarter}
@@ -10,7 +10,7 @@ import org.scalatest._
 import reactivemongo.api._
 import reactivemongo.api.collections.bson.BSONCollection
 
-trait BaseServiceTest extends WordSpec with Matchers with ScalatestRouteTest with HttpService with BeforeAndAfterAll{
+trait BaseServiceTest extends WordSpec with Matchers with ScalatestRouteTest with BaseService with BeforeAndAfterAll {
   protected val log: LoggingAdapter = NoLogging
 
 

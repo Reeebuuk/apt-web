@@ -3,7 +3,6 @@ package com.example.crudapi.price
 import akka.actor.{ActorLogging, Props}
 import akka.persistence.PersistentActor
 import akka.util.Timeout
-import com.example.crudapi.MainActorSystem
 import com.example.crudapi.price.DailyPriceActor.CalculatePriceForDay
 import com.example.crudapi.price.PriceCommandQueryProtocol.CalculatePriceForRange
 import com.example.crudapi.utils.PricingConfig
@@ -11,6 +10,7 @@ import org.joda.time.{DateTime, DateTimeZone, Days}
 
 import scala.collection.mutable
 import scala.concurrent.duration.DurationInt
+import scala.language.postfixOps
 
 object PriceRangeActor {
 
@@ -20,13 +20,13 @@ object PriceRangeActor {
 
 case class PriceForDay(day: Long, var price: Option[BigDecimal] = None)
 
-class PriceRangeActor(pricingConfig: PricingConfig) extends PersistentActor with ActorLogging with MainActorSystem {
+class PriceRangeActor(pricingConfig: PricingConfig) extends PersistentActor with ActorLogging {
 
   def persistenceId = "PriceRangeActor"
 
   implicit val timeout = Timeout(5 seconds)
 
-  val dailyPriceActor = system.actorOf(DailyPriceActor.props(pricingConfig), "DailyPriceActor")
+  val dailyPriceActor = context.actorOf(DailyPriceActor.props(pricingConfig), "DailyPriceActor")
 
   val priceRangeCalculations = mutable.Map[Int, PriceForDay]()
 
@@ -44,7 +44,7 @@ class PriceRangeActor(pricingConfig: PricingConfig) extends PersistentActor with
       val toDate = new DateTime(to).toDateTime(DateTimeZone.UTC)
       val duration = Days.daysBetween(fromDate.toLocalDate, toDate.toLocalDate).getDays
 
-      (0 until duration).map(daysFromStart => {
+      (0 until duration).foreach(daysFromStart => {
         val day = new DateTime(from).toDateTime(DateTimeZone.UTC).plusDays(daysFromStart).getMillis
         dailyPriceActor ! CalculatePriceForDay(unitId, day)
       })
