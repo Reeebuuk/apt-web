@@ -6,5 +6,4 @@ trait MainActorSystem {
 
   implicit val system = ActorSystem("booking")
 
-
 }

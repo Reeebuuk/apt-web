@@ -5,8 +5,7 @@ import akka.http.scaladsl.server.Directives._
 import akka.pattern.ask
 import akka.util.Timeout
 import com.example.crudapi.price.PriceCommandQueryProtocol._
-import org.json4s.DefaultFormats
-import org.json4s.native.Serialization._
+import com.example.crudapi.utils.MarshallingSupport
 
 import scala.concurrent.duration._
 import scala.language.postfixOps
@@ -19,11 +18,11 @@ final case class PriceForRangeDto(unitId: Int, price: BigDecimal, response: Stri
 final case class ErrorDto(unitId: Int, msg: String, response: String = "ErrorDto")
 
 
-trait PriceServiceRoute extends BaseServiceRoute {
+trait PriceServiceRoute extends BaseServiceRoute with MarshallingSupport {
 
   implicit val timeout = Timeout(30 seconds)
 
-  implicit val formats = DefaultFormats
+  import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport._
 
   def customersRoute(command: ActorRef, query: ActorRef) = pathPrefix("price") {
     post {
@@ -37,14 +36,14 @@ trait PriceServiceRoute extends BaseServiceRoute {
             )).mapTo[PriceQueryResponse]) {
               case Success(s) => s match {
                 case PriceForRangeCalculated(unitId, price) =>
-                  complete(write(PriceForRangeDto(unitId, price)))
+                  complete(PriceForRangeDto(unitId, price))
                 case InvalidRange(unitId) =>
-                  complete(write(ErrorDto(unitId, "ERROR")))
+                  complete(ErrorDto(unitId, "ERROR"))
                 case _ =>
-                  complete(write(ErrorDto(priceForRange.unitId, "ERROR")))
+                  complete(ErrorDto(priceForRange.unitId, "ERROR"))
               }
               case Failure(t) =>
-                complete(write(ErrorDto(priceForRange.unitId, t.getMessage)))
+                complete(ErrorDto(priceForRange.unitId, t.getMessage))
             }
           }
         }

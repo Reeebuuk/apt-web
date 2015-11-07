@@ -1,21 +1,24 @@
 package com.example
 
 import akka.actor.Props
+import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
 import akka.http.scaladsl.model.{HttpEntity, MediaTypes}
-import akka.testkit.TestKit
 import com.example.crudapi.http.BaseService
 import com.example.crudapi.http.routes.{CalculatePriceForRangeDto, PriceForRangeDto}
 import com.example.crudapi.utils.DateUtils
 import org.joda.time.{DateTime, DateTimeZone}
+import org.json4s.DefaultFormats
 import org.scalatest.concurrent.ScalaFutures
 import spray.json._
 
-class PriceServiceTest extends BaseServiceTest with ScalaFutures with TestKit with BaseService with DateUtils {
+class PriceServiceTest extends BaseServiceTest with ScalaFutures with BaseService with DateUtils with SprayJsonSupport {
 
   implicit val ec = system.dispatcher
 
   val processor = system.actorOf(Props(), "processorActor")
   val view = system.actorOf(Props(), "processorActor")
+
+  implicit val format = DefaultFormats
 
   "Price service" should {
     "retrieve price for single day" in {
