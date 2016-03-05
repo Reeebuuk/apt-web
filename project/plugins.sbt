@@ -13,3 +13,5 @@ addSbtPlugin("io.kamon" % "aspectj-runner" % "0.1.3")
 addSbtPlugin("io.spray" % "sbt-revolver" % "0.8.0")
 
 addSbtPlugin("com.artima.supersafe" % "sbtplugin" % "1.1.0-RC5")
+
+addSbtPlugin("com.typesafe.sbt" % "sbt-multi-jvm" % "0.3.8")
