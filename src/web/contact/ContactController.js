@@ -7,7 +7,6 @@ contactModule.controller('ContactController', ['$scope', 'ContactFactory', '$q',
         $scope.hideAlert = function(){
             $scope.success = false;
             $scope.error = false;
-            console.log("hide");
         };
 
         $scope.clearFields = function() {
