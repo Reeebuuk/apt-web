@@ -432,7 +432,7 @@ apartmentsModule.factory('ApartmentsFactory', ['PictureSizeFactory', 'DataServic
             filters["from"] = from.getTime();
             filters["to"] = to.getTime();
 
-            return DataService.executePagableGetRequest('/api/booking/available', filters)
+            return DataService.executePagableGetRequest('http://localhost:9001/v1/booking/available', filters)
         }
 
         return {

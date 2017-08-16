@@ -3,7 +3,7 @@ sharedModule.factory('PricingFactory', ['DataService',
     function (DataService)
     {
         function createGetPricingList(){
-            return DataService.executeGetRequestWithoutParams('/api/pricing')
+            return DataService.executeGetRequestWithoutParams('http://localhost:9001/v1/pricing')
         }
 
         function fetchPriceForRange(id, from, to)
@@ -22,7 +22,7 @@ sharedModule.factory('PricingFactory', ['DataService',
             filters["to"] = to.getTime();
             filters["apartmentId"] = id;
 
-            return DataService.executePagableGetRequest('/api/pricing/range', filters)
+            return DataService.executePagableGetRequest('http://localhost:9001/v1/pricing/range', filters)
         }
 
         return {

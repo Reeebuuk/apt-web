@@ -1,11 +1,11 @@
 bookingModule.factory('BookingFactory', ['DataService',
     function (DataService) {
         function createSendBooking(payload) {
-            return DataService.executePostRequest('/api/booking', payload)
+            return DataService.executePostRequest('http://localhost:9001/v1/booking', payload)
         }
 
         function createGetBookedDays(apartmentId) {
-            return DataService.executeGetRequest('/api/booking/bookedDates', apartmentId)
+            return DataService.executeGetRequest('http://localhost:9001/v1/booking/bookedDates', apartmentId)
         }
 
         function mmddyyyy(date) {

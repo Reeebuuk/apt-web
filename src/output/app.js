@@ -2886,7 +2886,7 @@ sharedModule.factory('PricingFactory', ['DataService',
     function (DataService)
     {
         function createGetPricingList(){
-            return DataService.executeGetRequestWithoutParams('/api/pricing')
+            return DataService.executeGetRequestWithoutParams('http://localhost:9001/v1/pricing')
         }
 
         function fetchPriceForRange(id, from, to)
@@ -2905,7 +2905,7 @@ sharedModule.factory('PricingFactory', ['DataService',
             filters["to"] = to.getTime();
             filters["apartmentId"] = id;
 
-            return DataService.executePagableGetRequest('/api/pricing/range', filters)
+            return DataService.executePagableGetRequest('http://localhost:9001/v1/pricing/range', filters)
         }
 
         return {
@@ -3150,7 +3150,7 @@ contactModule.controller('ContactController', ['$scope', 'ContactFactory', '$q',
 contactModule.factory('ContactFactory', ['DataService', '$log',
     function (DataService, $log) {
         function createSendContact(payload) {
-            return DataService.executePostRequest('/api/contact', payload)
+            return DataService.executePostRequest('http://localhost:9001/v1/contact', payload)
         }
 
         return {
@@ -3303,11 +3303,11 @@ bookingModule.controller('BookingController', ['$scope', 'BookingFactory', '$q',
 bookingModule.factory('BookingFactory', ['DataService',
     function (DataService) {
         function createSendBooking(payload) {
-            return DataService.executePostRequest('/api/booking', payload)
+            return DataService.executePostRequest('http://localhost:9001/v1/booking', payload)
         }
 
         function createGetBookedDays(apartmentId) {
-            return DataService.executeGetRequest('/api/booking/bookedDates', apartmentId)
+            return DataService.executeGetRequest('http://localhost:9001/v1/booking/bookedDates', apartmentId)
         }
 
         function mmddyyyy(date) {
@@ -3972,7 +3972,7 @@ apartmentsModule.factory('ApartmentsFactory', ['PictureSizeFactory', 'DataServic
             filters["from"] = from.getTime();
             filters["to"] = to.getTime();
 
-            return DataService.executePagableGetRequest('/api/booking/available', filters)
+            return DataService.executePagableGetRequest('http://localhost:9001/v1/booking/available', filters)
         }
 
         return {
