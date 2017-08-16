@@ -12,21 +12,21 @@ var gulp = require('gulp'),
 
 var isProduction = argument.env === 'production';
 
-var cssFiles = ['public/css/bootstrap/custom.css', 'public/css/app.css', 'public/css/photoswipe.css', 'public/css/default-skin.css', 'public/output/partials/**/*.css'];
-var lessFiles = ['public/less/variables/*.less', 'public/less/pages/*.less', 'public/less/*.less', 'public/less/pages/partials/*.less'];
+var cssFiles = ['src/css/bootstrap/custom.css', 'src/css/app.css', 'src/css/photoswipe.css', 'src/css/default-skin.css', 'src/output/partials/*.css'];
+var lessFiles = ['src/less/variables/*.less', 'src/less/pages/*.less', 'src/less/*.less', 'src/less/pages/partials/*.less'];
 var jsFiles = [
-    'public/web/*.js',
-    'public/web/vendor/*.js',
-    'public/web/shared/*.js',
-    'public/web/location/*.js',
-    'public/web/survey/*.js',
-    'public/web/header/*.js',
-    'public/web/contact/*.js',
-    'public/web/booking/*.js',
-    'public/web/apartments/*.js',
-    'public/web/home/*.js',
-    'public/web/surroundings/*.js',
-    'public/web/boat/*.js'
+    'src/web/*.js',
+    'src/web/vendor/*.js',
+    'src/web/shared/*.js',
+    'src/web/location/*.js',
+    'src/web/survey/*.js',
+    'src/web/header/*.js',
+    'src/web/contact/*.js',
+    'src/web/booking/*.js',
+    'src/web/apartments/*.js',
+    'src/web/home/*.js',
+    'src/web/surroundings/*.js',
+    'src/web/boat/*.js'
 ];
 
 function concatScripts() {
@@ -34,7 +34,7 @@ function concatScripts() {
         .pipe(concat('app.js'))
         .pipe(gulpIf(isProduction, ngAnnotate()))
         .pipe(gulpIf(isProduction, uglify()))
-        .pipe(gulp.dest('public/output/'));
+        .pipe(gulp.dest('src/output/'));
 }
 
 function concatCssFiles() {
@@ -42,15 +42,15 @@ function concatCssFiles() {
         .pipe(concat('app.css'))
         .pipe(gulpIf(isProduction, base64()))
         .pipe(gulpIf(isProduction, minifyCss()))
-        .pipe(gulp.dest('public/output/'));
+        .pipe(gulp.dest('src/output/'));
 }
 
 function compileLssFiles() {
-    gulp.src('public/less/style.less')
+    gulp.src('src/less/style.less')
         .pipe(less({
             paths: [ path.join(__dirname, 'less') ]
         }))
-        .pipe(gulp.dest('./public/output/partials'));
+        .pipe(gulp.dest('./src/output/partials'));
 }
 
 gulp.task('less', function () {
