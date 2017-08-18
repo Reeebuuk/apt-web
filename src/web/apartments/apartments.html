@@ -46,7 +46,7 @@
                     <div class="col-md-1 col-sm-1 col-xs-0">
                     </div>
                     <div class="col-md-2 col-sm-2 col-xs-6" ng-repeat="range in pricing">
-                        <h2 class="price-h2">{{range.appPrice[app.apartmentId]}}€</h2>
+                        <h2 class="price-h2">{{ getPriceForPeriod(app.apartmentId, range.appPrice)}}€</h2>
                         <span class="title">{{range.from | date:'d.M'}} - {{range.to | date:'d.M'}}</span>
                     </div>
                 </div>

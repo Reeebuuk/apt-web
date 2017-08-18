@@ -2583,7 +2583,7 @@ sharedModule.factory('DataService', ['$http', '$q', '$log', function ($http, $q,
         return dfd.promise;
     }
 
-    function makePagableGetRequest(url, filters) {
+    function makeGetRequestWithFilters(url, filters) {
         var request = {
             method: 'GET',
             url: url + appendFilter(filters)
@@ -2683,11 +2683,11 @@ sharedModule.factory('DataService', ['$http', '$q', '$log', function ($http, $q,
     }
 
     return {
-        executePagableGetRequest: function (url, filters) {
-            return makePagableGetRequest(url, filters);
+        executeGetRequestWithFilters: function (url, filters) {
+            return makeGetRequestWithFilters(url, filters);
         },
         executeGetRequestWithoutParams: function (url) {
-            return makePagableGetRequest(url, null);
+            return makeGetRequestWithFilters(url, null);
         },
         executeGetRequest: function (url, id) {
             return makeGetRequest(url, id);
@@ -2886,7 +2886,7 @@ sharedModule.factory('PricingFactory', ['DataService',
     function (DataService)
     {
         function createGetPricingList(){
-            return DataService.executeGetRequestWithoutParams('http://localhost:9001/v1/pricing')
+            return DataService.executeGetRequestWithoutParams('http://localhost:9001/v1/price')
         }
 
         function fetchPriceForRange(id, from, to)
@@ -2905,7 +2905,7 @@ sharedModule.factory('PricingFactory', ['DataService',
             filters["to"] = to.getTime();
             filters["apartmentId"] = id;
 
-            return DataService.executePagableGetRequest('http://localhost:9001/v1/pricing/range', filters)
+            return DataService.executeGetRequestWithFilters('http://localhost:9001/v1/pricing/range', filters)
         }
 
         return {
@@ -3307,7 +3307,11 @@ bookingModule.factory('BookingFactory', ['DataService',
         }
 
         function createGetBookedDays(apartmentId) {
-            return DataService.executeGetRequest('http://localhost:9001/v1/booking/bookedDates', apartmentId)
+
+            var filters = {};
+            filters["unitId"] = apartmentId;
+
+            return DataService.executeGetRequestWithFilters('http://localhost:9001/v1/booking/bookedDates', filters)
         }
 
         function mmddyyyy(date) {
@@ -3433,7 +3437,7 @@ apartmentsModule.controller('ApartmentsController', ['$scope', 'ApartmentsFactor
         });
 
         $scope.isApartmentsPage = function () {
-            return $location.path() == "/apartments"
+            return $location.path() === "/apartments"
         };
 
         $rootScope.$on('apartments_translated', function (event, arg) {
@@ -3453,6 +3457,15 @@ apartmentsModule.controller('ApartmentsController', ['$scope', 'ApartmentsFactor
 
         loadApartments();
 
+        $scope.getPriceForPeriod = function(apartmentId, appPrices){
+            for( var i = 0, n = appPrices.length; i < n; i++ ) {
+                if ( appPrices[i][0] == apartmentId ) {
+                    return appPrices[i][1];
+                }
+            }
+            return "-"
+        };
+
         $scope.showBooking = unselectedValue;
 
         $scope.scrollToAptDetails = function (id) {
@@ -3462,7 +3475,7 @@ apartmentsModule.controller('ApartmentsController', ['$scope', 'ApartmentsFactor
         };
 
         $scope.setSelected = function (index) {
-            if (index == $scope.selected) {
+            if (index === $scope.selected) {
                 $scope.selected = unselectedValue
             }
             else {
@@ -3520,7 +3533,7 @@ apartmentsModule.controller('ApartmentsController', ['$scope', 'ApartmentsFactor
             deferred.resolve(PricingFactory.getPricingList());
 
             promise.then(function (data) {
-                $scope.pricing = data;
+                $scope.pricing = data.prices;
             });
         }
 
@@ -3972,7 +3985,7 @@ apartmentsModule.factory('ApartmentsFactory', ['PictureSizeFactory', 'DataServic
             filters["from"] = from.getTime();
             filters["to"] = to.getTime();
 
-            return DataService.executePagableGetRequest('http://localhost:9001/v1/booking/available', filters)
+            return DataService.executeGetRequestWithFilters('http://localhost:9001/v1/booking/available', filters)
         }
 
         return {

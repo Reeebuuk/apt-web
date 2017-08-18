@@ -19,7 +19,7 @@ sharedModule.factory('DataService', ['$http', '$q', '$log', function ($http, $q,
         return dfd.promise;
     }
 
-    function makePagableGetRequest(url, filters) {
+    function makeGetRequestWithFilters(url, filters) {
         var request = {
             method: 'GET',
             url: url + appendFilter(filters)
@@ -119,11 +119,11 @@ sharedModule.factory('DataService', ['$http', '$q', '$log', function ($http, $q,
     }
 
     return {
-        executePagableGetRequest: function (url, filters) {
-            return makePagableGetRequest(url, filters);
+        executeGetRequestWithFilters: function (url, filters) {
+            return makeGetRequestWithFilters(url, filters);
         },
         executeGetRequestWithoutParams: function (url) {
-            return makePagableGetRequest(url, null);
+            return makeGetRequestWithFilters(url, null);
         },
         executeGetRequest: function (url, id) {
             return makeGetRequest(url, id);

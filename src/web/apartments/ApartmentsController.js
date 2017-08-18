@@ -17,7 +17,7 @@ apartmentsModule.controller('ApartmentsController', ['$scope', 'ApartmentsFactor
         });
 
         $scope.isApartmentsPage = function () {
-            return $location.path() == "/apartments"
+            return $location.path() === "/apartments"
         };
 
         $rootScope.$on('apartments_translated', function (event, arg) {
@@ -37,6 +37,15 @@ apartmentsModule.controller('ApartmentsController', ['$scope', 'ApartmentsFactor
 
         loadApartments();
 
+        $scope.getPriceForPeriod = function(apartmentId, appPrices){
+            for( var i = 0, n = appPrices.length; i < n; i++ ) {
+                if ( appPrices[i][0] == apartmentId ) {
+                    return appPrices[i][1];
+                }
+            }
+            return "-"
+        };
+
         $scope.showBooking = unselectedValue;
 
         $scope.scrollToAptDetails = function (id) {
@@ -46,7 +55,7 @@ apartmentsModule.controller('ApartmentsController', ['$scope', 'ApartmentsFactor
         };
 
         $scope.setSelected = function (index) {
-            if (index == $scope.selected) {
+            if (index === $scope.selected) {
                 $scope.selected = unselectedValue
             }
             else {
@@ -104,7 +113,7 @@ apartmentsModule.controller('ApartmentsController', ['$scope', 'ApartmentsFactor
             deferred.resolve(PricingFactory.getPricingList());
 
             promise.then(function (data) {
-                $scope.pricing = data;
+                $scope.pricing = data.prices;
             });
         }
 

@@ -5,7 +5,11 @@ bookingModule.factory('BookingFactory', ['DataService',
         }
 
         function createGetBookedDays(apartmentId) {
-            return DataService.executeGetRequest('http://localhost:9001/v1/booking/bookedDates', apartmentId)
+
+            var filters = {};
+            filters["unitId"] = apartmentId;
+
+            return DataService.executeGetRequestWithFilters('http://localhost:9001/v1/booking/bookedDates', filters)
         }
 
         function mmddyyyy(date) {
