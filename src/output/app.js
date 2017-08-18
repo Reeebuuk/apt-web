@@ -3169,7 +3169,7 @@ bookingModule.controller('BookingController', ['$scope', 'BookingFactory', '$q',
             var deferred = $q.defer();
             var promise = deferred.promise;
 
-            deferred.resolve(BookingFactory.getBookedDays($scope.booking.apartmentId));
+            deferred.resolve(BookingFactory.getBookedDays($scope.booking.unitId));
 
             promise.then(function (data) {
                     $scope.bookedDays = data;
@@ -3199,7 +3199,7 @@ bookingModule.controller('BookingController', ['$scope', 'BookingFactory', '$q',
             }
 
             $scope.booking = {
-                apartmentId: $scope.$parent.app.apartmentId,
+                unitId: $scope.$parent.app.apartmentId,
                 name: "",
                 surname: "",
                 email: "",
