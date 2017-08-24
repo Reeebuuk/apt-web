@@ -1,13 +1,11 @@
 sharedModule.factory('PricingFactory', ['DataService',
 
-    function (DataService)
-    {
-        function createGetPricingList(){
+    function (DataService) {
+        function createGetPricingList() {
             return DataService.executeGetRequestWithoutParams('http://localhost:9001/v1/price')
         }
 
-        function fetchPriceForRange(id, from, to)
-        {
+        function fetchPriceForRange(id, from, to) {
             from.setHours(12);
             from.setMinutes(0);
             from.setSeconds(0);
@@ -17,20 +15,22 @@ sharedModule.factory('PricingFactory', ['DataService',
             to.setMinutes(0);
             to.setSeconds(0);
             to.setMilliseconds(0);
-            var filters = {};
-            filters["from"] = from.getTime();
-            filters["to"] = to.getTime();
-            filters["apartmentId"] = id;
+            var payload = {
+                from: from.getTime(),
+                to: to.getTime(),
+                unitId: id,
+                userId: "user"
+            };
 
-            return DataService.executeGetRequestWithFilters('http://localhost:9001/v1/pricing/range', filters)
+            return DataService.executePostRequest('http://localhost:9001/v1/price/calculate', payload)
         }
 
         return {
-            getPricingList: function() {
+            getPricingList: function () {
                 return createGetPricingList();
             },
 
-            getPriceForRange: function(id, from, to) {
+            getPriceForRange: function (id, from, to) {
                 return fetchPriceForRange(id, from, to);
             }
         };

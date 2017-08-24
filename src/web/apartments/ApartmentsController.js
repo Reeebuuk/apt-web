@@ -39,7 +39,7 @@ apartmentsModule.controller('ApartmentsController', ['$scope', 'ApartmentsFactor
 
         $scope.getPriceForPeriod = function(apartmentId, appPrices){
             for( var i = 0, n = appPrices.length; i < n; i++ ) {
-                if ( appPrices[i][0] == apartmentId ) {
+                if ( appPrices[i][0] === apartmentId ) {
                     return appPrices[i][1];
                 }
             }

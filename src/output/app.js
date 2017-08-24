@@ -2883,14 +2883,12 @@ sharedModule.factory('PictureSizeFactory', [function () {
 
 sharedModule.factory('PricingFactory', ['DataService',
 
-    function (DataService)
-    {
-        function createGetPricingList(){
+    function (DataService) {
+        function createGetPricingList() {
             return DataService.executeGetRequestWithoutParams('http://localhost:9001/v1/price')
         }
 
-        function fetchPriceForRange(id, from, to)
-        {
+        function fetchPriceForRange(id, from, to) {
             from.setHours(12);
             from.setMinutes(0);
             from.setSeconds(0);
@@ -2900,20 +2898,22 @@ sharedModule.factory('PricingFactory', ['DataService',
             to.setMinutes(0);
             to.setSeconds(0);
             to.setMilliseconds(0);
-            var filters = {};
-            filters["from"] = from.getTime();
-            filters["to"] = to.getTime();
-            filters["apartmentId"] = id;
+            var payload = {
+                from: from.getTime(),
+                to: to.getTime(),
+                unitId: id,
+                userId: "user"
+            };
 
-            return DataService.executeGetRequestWithFilters('http://localhost:9001/v1/pricing/range', filters)
+            return DataService.executePostRequest('http://localhost:9001/v1/price/calculate', payload)
         }
 
         return {
-            getPricingList: function() {
+            getPricingList: function () {
                 return createGetPricingList();
             },
 
-            getPriceForRange: function(id, from, to) {
+            getPriceForRange: function (id, from, to) {
                 return fetchPriceForRange(id, from, to);
             }
         };
@@ -3459,7 +3459,7 @@ apartmentsModule.controller('ApartmentsController', ['$scope', 'ApartmentsFactor
 
         $scope.getPriceForPeriod = function(apartmentId, appPrices){
             for( var i = 0, n = appPrices.length; i < n; i++ ) {
-                if ( appPrices[i][0] == apartmentId ) {
+                if ( appPrices[i][0] === apartmentId ) {
                     return appPrices[i][1];
                 }
             }
@@ -3961,15 +3961,16 @@ apartmentsModule.factory('ApartmentsFactory', ['PictureSizeFactory', 'DataServic
             translate();
         });
 
-        function getAvailableApartmentsArray(takenApartmentsIds){
+        function getAvailableApartmentsArray(availableApartmentIds){
             var apartments = [];
-            if ($.inArray('2', takenApartmentsIds) > -1){
+
+            if ($.inArray('2', availableApartmentIds) > -1){
                 apartments.push(blanka_app)
             }
-            if ($.inArray('1', takenApartmentsIds) > -1){
+            if ($.inArray('1', availableApartmentIds) > -1){
                 apartments.push(kruno_app)
             }
-            if ($.inArray('3', takenApartmentsIds) > -1){
+            if ($.inArray('3', availableApartmentIds) > -1){
                 apartments.push(djuro_app)
             }
             return apartments;
@@ -3989,8 +3990,8 @@ apartmentsModule.factory('ApartmentsFactory', ['PictureSizeFactory', 'DataServic
         }
 
         return {
-            getAvailableApartments: function (takenApartmentsIds){
-                return getAvailableApartmentsArray(takenApartmentsIds);
+            getAvailableApartments: function (availableApartmentIds){
+                return getAvailableApartmentsArray(availableApartmentIds);
             },
 
             getAllApartments: function() {
@@ -4032,7 +4033,7 @@ homeModule.controller('HomeController', ['ApartmentsFactory', '$scope', '$interv
 
         function callAtInterval() {
             var selected = parseInt(angular.element(document.querySelector('#selected')).attr('number'));
-            if ($scope.selectedMonths[3] != selected) {
+            if ($scope.selectedMonths[3] !== selected) {
                 monthSelected(selected);
             }
         }
@@ -4050,7 +4051,7 @@ homeModule.controller('HomeController', ['ApartmentsFactory', '$scope', '$interv
 
         function getEndingMonthTime() {
             var endDate;
-            if ($scope.months[$scope.selectedMonths[2]].getMonth() == 11) {
+            if ($scope.months[$scope.selectedMonths[2]].getMonth() === 11) {
                 endDate = new Date($scope.months[$scope.selectedMonths[2]].getTime());
                 endDate.setDate(31);
             }
@@ -4063,10 +4064,10 @@ homeModule.controller('HomeController', ['ApartmentsFactory', '$scope', '$interv
 
         function monthSelected(index) {
 
-            if (index == 0) {
+            if (index === 0) {
                 $scope.selectedMonths = [0, 1, 2, 0];
             }
-            else if (index == 10) {
+            else if (index === 10) {
                 $scope.selectedMonths = [9, 10, 11, 11];
 
             }
@@ -4128,7 +4129,7 @@ homeModule.controller('HomeController', ['ApartmentsFactory', '$scope', '$interv
         recalibrateDefaultDate();
 
         function calculateDuration() {
-            if ($scope.result.toDate != null && $scope.result.fromDate != null) {
+            if ($scope.result.toDate !== null && $scope.result.fromDate !== null) {
                 $scope.duration = Math.round(Math.abs(($scope.result.toDate.getTime() - $scope.result.fromDate.getTime()) / (oneDay)));
 
                 var deferred = $q.defer();
@@ -4137,14 +4138,10 @@ homeModule.controller('HomeController', ['ApartmentsFactory', '$scope', '$interv
                 deferred.resolve(ApartmentsFactory.getAvailableApartmentsForRange($scope.result.fromDate, $scope.result.toDate));
 
                 promise.then(function (data) {
-                    var availableApartments = [1, 2, 3];
 
-                    $scope.apartmentsAvailable = availableApartments.length - data.length;
+                    $scope.numberOfAvailableApartments = data.unitIds.length;
 
-                    for (var i = 0; i < data.length; i++) {
-                        availableApartments.remove(parseInt(data[i].apartmentId));
-                    }
-                    $rootScope.$broadcast('available_apartments', availableApartments.join(','));
+                    $rootScope.$broadcast('available_apartments', data.unitIds.join(','));
                 });
             }
         }

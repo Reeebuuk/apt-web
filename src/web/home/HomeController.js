@@ -25,7 +25,7 @@ homeModule.controller('HomeController', ['ApartmentsFactory', '$scope', '$interv
 
         function callAtInterval() {
             var selected = parseInt(angular.element(document.querySelector('#selected')).attr('number'));
-            if ($scope.selectedMonths[3] != selected) {
+            if ($scope.selectedMonths[3] !== selected) {
                 monthSelected(selected);
             }
         }
@@ -43,7 +43,7 @@ homeModule.controller('HomeController', ['ApartmentsFactory', '$scope', '$interv
 
         function getEndingMonthTime() {
             var endDate;
-            if ($scope.months[$scope.selectedMonths[2]].getMonth() == 11) {
+            if ($scope.months[$scope.selectedMonths[2]].getMonth() === 11) {
                 endDate = new Date($scope.months[$scope.selectedMonths[2]].getTime());
                 endDate.setDate(31);
             }
@@ -56,10 +56,10 @@ homeModule.controller('HomeController', ['ApartmentsFactory', '$scope', '$interv
 
         function monthSelected(index) {
 
-            if (index == 0) {
+            if (index === 0) {
                 $scope.selectedMonths = [0, 1, 2, 0];
             }
-            else if (index == 10) {
+            else if (index === 10) {
                 $scope.selectedMonths = [9, 10, 11, 11];
 
             }
@@ -121,7 +121,7 @@ homeModule.controller('HomeController', ['ApartmentsFactory', '$scope', '$interv
         recalibrateDefaultDate();
 
         function calculateDuration() {
-            if ($scope.result.toDate != null && $scope.result.fromDate != null) {
+            if ($scope.result.toDate !== null && $scope.result.fromDate !== null) {
                 $scope.duration = Math.round(Math.abs(($scope.result.toDate.getTime() - $scope.result.fromDate.getTime()) / (oneDay)));
 
                 var deferred = $q.defer();
@@ -130,14 +130,10 @@ homeModule.controller('HomeController', ['ApartmentsFactory', '$scope', '$interv
                 deferred.resolve(ApartmentsFactory.getAvailableApartmentsForRange($scope.result.fromDate, $scope.result.toDate));
 
                 promise.then(function (data) {
-                    var availableApartments = [1, 2, 3];
 
-                    $scope.apartmentsAvailable = availableApartments.length - data.length;
+                    $scope.numberOfAvailableApartments = data.unitIds.length;
 
-                    for (var i = 0; i < data.length; i++) {
-                        availableApartments.remove(parseInt(data[i].apartmentId));
-                    }
-                    $rootScope.$broadcast('available_apartments', availableApartments.join(','));
+                    $rootScope.$broadcast('available_apartments', data.unitIds.join(','));
                 });
             }
         }

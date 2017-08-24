@@ -20,19 +20,19 @@
         </div>
         <div class="search-results" ng-click="scrollToApartments()" analytics-on="click">
             <div class="table-align">
-                <h2 ng-if="apartmentsAvailable > 1" translate="apartments_available_many"
-                    translate-values='{ duration: "<b>{{apartmentsAvailable}}</b>"}'></h2>
+                <h2 ng-if="numberOfAvailableApartments > 1" translate="apartments_available_many"
+                    translate-values='{ duration: "<b>{{numberOfAvailableApartments}}</b>"}'></h2>
 
-                <h2 ng-if="apartmentsAvailable == 1" translate="apartments_available_one"
-                    translate-values='{ duration: "<b>{{apartmentsAvailable}}</b>"}'></h2>
+                <h2 ng-if="numberOfAvailableApartments == 1" translate="apartments_available_one"
+                    translate-values='{ duration: "<b>{{numberOfAvailableApartments}}</b>"}'></h2>
 
-                <h2 ng-if="apartmentsAvailable == 0" translate="no_apartments_available"></h2>
+                <h2 ng-if="numberOfAvailableApartments == 0" translate="no_apartments_available"></h2>
 
                 <div class="clearfix"></div>
                 <h3 class="show_all"><a href="/apartments" analytics-on="click"><p translate="show_all"></p></a></h3>
             </div>
             <div class="align-middle">
-                <a class="arrow-down" ng-if="apartmentsAvailable > 0"></a>
+                <a class="arrow-down" ng-if="numberOfAvailableApartments > 0"></a>
             </div>
         </div>
     </div>

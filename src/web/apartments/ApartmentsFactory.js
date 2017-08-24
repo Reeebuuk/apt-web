@@ -408,15 +408,16 @@ apartmentsModule.factory('ApartmentsFactory', ['PictureSizeFactory', 'DataServic
             translate();
         });
 
-        function getAvailableApartmentsArray(takenApartmentsIds){
+        function getAvailableApartmentsArray(availableApartmentIds){
             var apartments = [];
-            if ($.inArray('2', takenApartmentsIds) > -1){
+
+            if ($.inArray('2', availableApartmentIds) > -1){
                 apartments.push(blanka_app)
             }
-            if ($.inArray('1', takenApartmentsIds) > -1){
+            if ($.inArray('1', availableApartmentIds) > -1){
                 apartments.push(kruno_app)
             }
-            if ($.inArray('3', takenApartmentsIds) > -1){
+            if ($.inArray('3', availableApartmentIds) > -1){
                 apartments.push(djuro_app)
             }
             return apartments;
@@ -436,8 +437,8 @@ apartmentsModule.factory('ApartmentsFactory', ['PictureSizeFactory', 'DataServic
         }
 
         return {
-            getAvailableApartments: function (takenApartmentsIds){
-                return getAvailableApartmentsArray(takenApartmentsIds);
+            getAvailableApartments: function (availableApartmentIds){
+                return getAvailableApartmentsArray(availableApartmentIds);
             },
 
             getAllApartments: function() {
