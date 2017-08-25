@@ -1,0 +1,58 @@
+<div class="bookings">
+
+    <section class="bookings-note">
+        <div>
+            <h2 translate="all_bookings"></h2>
+            <hr class="h2-divider"/>
+        </div>
+    </section>
+
+    <section class="bookings-table">
+        <div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th translate="booking_unit"></th>
+                    <th translate="booking_date_from"></th>
+                    <th translate="booking_date_to"></th>
+                    <th translate="booking_name"></th>
+                    <th translate="booking_surname"></th>
+                    <th translate="booking_enquiry_time"></th>
+                    <th translate="booking_phone_number"></th>
+                    <th translate="booking_email"></th>
+                    <th translate="booking_city"></th>
+                    <th translate="booking_country"></th>
+                    <th translate="booking_animals"></th>
+                    <th translate="booking_no_of_people"></th>
+                    <th translate="booking_note"></th>
+                    <th translate="booking_total_price"></th>
+                    <th translate="booking_deposit_amount"></th>
+                    <th translate="booking_deposit_currency"></th>
+                    <th translate="booking_deposit_paid"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="b in bookings">
+                    <td>{{b.unit}}</td>
+                    <td>{{b.dateFrom}}</td>
+                    <td>{{b.dateTo}}</td>
+                    <td>{{b.name}}</td>
+                    <td>{{b.surname}}</td>
+                    <td>{{b.timeSaved}}</td>
+                    <td>{{b.phoneNumber}}</td>
+                    <td>{{b.email}}</td>
+                    <td>{{b.city}}</td>
+                    <td>{{b.country}}</td>
+                    <td>{{b.animals}}</td>
+                    <td>{{b.noOfPeople}}</td>
+                    <td>{{b.note}}</td>
+                    <td>{{b.totalPrice}}</td>
+                    <td>{{b.depositAmount}}</td>
+                    <td>{{b.depositCurrency}}</td>
+                    <td>{{b.depositWhen}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>

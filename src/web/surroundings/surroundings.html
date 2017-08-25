@@ -18,7 +18,7 @@
     </div>
     <div ng-repeat="item in list">
         <div class="clearfix" id="item{{$index}}"></div>
-        <div class="list-overview" ng-click="setSelected($index)" analytics-on="click"
+        <div class="list-overview" ng-click="setSelected($index)"
              ng-hide="selectedItem == $index">
             <div class="col-md-12 col-sm-12 col-xs-12"
                  ng-style="{'background-image':'url(../img/' + item.image +')', height: '100%'}">
@@ -54,7 +54,7 @@
                 <div class="my-simple-gallery" itemscope itemtype="http://schema.org/ImageGallery">
 
                     <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"
-                            analytics-on="click"
+
                             ng-repeat="image in item.previewImages" class="col-md-4 nopadding gallery-item"
                             photo-swipe-ready size="{{item.previewImages.length}}" number="{{$index}}"
                             ng-show="{{image.show}}">

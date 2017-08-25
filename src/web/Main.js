@@ -9,6 +9,7 @@ var sharedModule = angular.module('Shared', []);
 var apartmentsModule = angular.module('Apartments', ['Shared']);
 var headerModule = angular.module('Header', []);
 var contactModule = angular.module('Contact', ['Shared']);
+var bookingsModule = angular.module('Bookings', ['Shared']);
 var bookingModule = angular.module('Booking', ['Shared', 'Apartments']);
 
 var application = angular.module('AptWeb', [
@@ -18,6 +19,7 @@ var application = angular.module('AptWeb', [
     'Apartments',
     'Header',
     'Contact',
+    'Bookings',
     'Booking',
     'Surroundings',
     'Shared',

@@ -26,7 +26,8 @@ var jsFiles = [
     'src/web/apartments/*.js',
     'src/web/home/*.js',
     'src/web/surroundings/*.js',
-    'src/web/boat/*.js'
+    'src/web/boat/*.js',
+    'src/web/bookings/*.js'
 ];
 
 function concatScripts() {

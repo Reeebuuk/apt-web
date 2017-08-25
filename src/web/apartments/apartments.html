@@ -8,7 +8,7 @@
     </div>
     <div ng-repeat="app in apartments">
         <div class="clearfix" id="app{{$index}}"></div>
-        <div class="list-overview" ng-click="setSelected($index)" analytics-on="click"
+        <div class="list-overview" ng-click="setSelected($index)"
              ng-hide="selected == $index">
             <div class="col-md-12 col-sm-12 col-xs-12"
                  ng-style="{'background-image':'url(../img/' + app.image +')', height: '100%'}">
@@ -68,7 +68,7 @@
 
                 <div class="book-now">
                     <input type="submit" ng-click="openBooking($index)" translate translate-attr-value="book_now"
-                           class="form-control submit submit-button" analytics-on="click">
+                           class="form-control submit submit-button">
                 </div>
 
                 <div ng-if="showBooking == $index" data-ng-include="'/web/booking/booking.html'"
@@ -82,7 +82,7 @@
                 <div class="my-simple-gallery" itemscope itemtype="http://schema.org/ImageGallery">
 
                     <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject"
-                            analytics-on="click"
+                           
                             ng-repeat="image in app.previewImages" class="col-md-4 nopadding gallery-item"
                             photo-swipe-ready size="{{app.previewImages.length}}" number="{{$index}}"
                             ng-show="{{image.show}}">

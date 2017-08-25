@@ -4,7 +4,7 @@
         <form name="bookingForm" ng-hide="success">
             <div class="row">
                 <span>
-                    <input type="text" class="basic-slide" datepicker-popup="dd-MMMM-yyyy" ng-model="booking.dateFrom"
+                    <input class="basic-slide" datepicker-popup="dd-MMMM-yyyy" ng-model="booking.dateFrom"
                            is-open="calendar.fromOpened" datepicker-options="dateOptions" datepicker-mode="'day'"
                            close-text="Close" id="from" ng-required="true" custom-class="getDayFromClass(date)"
                            date-disabled="getDateDisabled(date)" ng-if="showCalendars"/>
@@ -12,7 +12,7 @@
                 </span>
 
                 <span>
-                    <input type="text" class="basic-slide" datepicker-popup="dd-MMMM-yyyy" ng-model="booking.dateTo"
+                    <input class="basic-slide" datepicker-popup="dd-MMMM-yyyy" ng-model="booking.dateTo"
                            is-open="calendar.toOpened" datepicker-options="dateOptions" min-date="booking.dateFrom"
                            close-text="Close" id="to" ng-required="true" custom-class="getDayToClass(date)"
                            date-disabled="getDateDisabled(date)" ng-if="showCalendars" datepicker-mode="'day'"/>
@@ -24,11 +24,11 @@
 
             <div class="row">
                 <span>
-                    <input class="basic-slide" id="name" type="text" translate translate-attr-placeholder="booking_name_placeholder" ng-model="booking.name"/>
+                    <input class="basic-slide" id="name" translate translate-attr-placeholder="booking_name_placeholder" ng-model="booking.name"/>
                     <label for="name" translate="booking_name"></label>
                 </span>
                 <span>
-                    <input class="basic-slide" id="surname" type="text" translate translate-attr-placeholder="booking_surname_placeholder"
+                    <input class="basic-slide" id="surname" translate translate-attr-placeholder="booking_surname_placeholder"
                            ng-model="booking.surname"/>
                     <label for="surname" translate="booking_surname"></label>
                   </span>
@@ -36,13 +36,13 @@
             </div>
             <div class="row">
             <span>
-                <input class="basic-slide" id="email" type="text" translate translate-attr-placeholder="booking_name_placeholder"
+                <input class="basic-slide" id="email" translate translate-attr-placeholder="booking_name_placeholder"
                        ng-model="booking.email" ng-required="true"/>
                 <label for="email" translate="booking_email"></label>
               </span>
 
             <span>
-                <input class="basic-slide" id="phone-number" type="text" translate translate-attr-placeholder="booking_phone_number_placeholder"
+                <input class="basic-slide" id="phone-number" translate translate-attr-placeholder="booking_phone_number_placeholder"
                        ng-model="booking.phoneNumber"/>
                 <label for="phone-number" translate="booking_phone_number"></label>
               </span>
@@ -51,18 +51,18 @@
             </div>
             <div class="row">
             <span>
-                <input class="basic-slide" id="animals" type="text" translate translate-attr-placeholder="booking_animals_placeholder"
+                <input class="basic-slide" id="animals" translate translate-attr-placeholder="booking_animals_placeholder"
                        ng-model="booking.animals"/>
                   <label for="animals" translate="booking_animals"></label>
               </span>
 
             <span>
-                <input class="basic-slide" id="numberOfPeople" type="text" translate translate-attr-placeholder="booking_no_of_people_placeholder"
+                <input class="basic-slide" id="numberOfPeople" translate translate-attr-placeholder="booking_no_of_people_placeholder"
                        ng-model="booking.noOfPeople"/>
                   <label for="numberOfPeople" translate="booking_no_of_people"></label>
               </span>
             <span>
-                <input class="basic-slide" id="special-requests" type="text" translate translate-attr-placeholder="booking_note_placeholder"
+                <input class="basic-slide" id="special-requests" translate translate-attr-placeholder="booking_note_placeholder"
                        ng-model="booking.note"/>
                   <label for="special-requests" translate="booking_note"></label>
               </span>

@@ -1399,6 +1399,37 @@ a.pswp__share--download:hover {
   padding-right: 9px !important;
   padding-top: 9px !important;
 }
+.bookings {
+  padding-top: 50px;
+}
+.bookings section {
+  padding: 40px 0;
+}
+.bookings .bookings-note {
+  background-color: #F6F8F8;
+}
+.bookings .bookings-table p {
+  padding: 10px;
+  border-radius: 5px;
+  color: #979797;
+}
+.bookings .bookings-table h2 {
+  text-align: left;
+}
+.bookings .bookings-table .submit-button {
+  background: #4bbbc7;
+  padding: 15px 30px;
+  text-transform: uppercase;
+  width: auto;
+  font-weight: 400;
+  color: #fff;
+  font-size: 1.6rem;
+  height: 50px;
+}
+.bookings .bookings-table .close {
+  padding-right: 9px !important;
+  padding-top: 9px !important;
+}
 .home .slider-header {
   margin-top: 52px;
   display: inline-block;
