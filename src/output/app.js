@@ -2669,6 +2669,25 @@ sharedModule.factory('DataService', ['$http', '$q', '$log', function ($http, $q,
         return dfd.promise;
     }
 
+    function makePutRequestWithoutPayload(url)
+    {
+        var request = {
+            method : 'PUT',
+            url : url
+        };
+
+        var dfd = $q.defer();
+        $http(request).then(
+                function (responseSuccessData) {
+                    dfd.resolve(responseSuccessData.data);
+                },
+                function (responseErrorData) {
+                    dfd.reject(responseErrorData.data);
+                }
+        );
+        return dfd.promise;
+    }
+
     function makeDeleteRequest(url, id)
     {
         var request = {
@@ -2703,6 +2722,9 @@ sharedModule.factory('DataService', ['$http', '$q', '$log', function ($http, $q,
         },
         executePutRequest: function (url, id, payload) {
             return makePutRequest(url, id, payload);
+        },
+        executePutRequestWithoutPayload: function (url) {
+            return makePutRequestWithoutPayload(url);
         },
         executeDeleteRequest: function (url, id) {
             return makeDeleteRequest(url, id);
@@ -5768,17 +5790,52 @@ boatModule.factory('BoatFactory', ['PictureSizeFactory',
 bookingsModule.controller('BookingsController', ['$scope', 'BookingsFactory', '$q',
     function ($scope, BookingsFactory, $q) {
 
-        $scope.fetchBookings = function(){
-                var deferred = $q.defer();
-                var promise = deferred.promise;
-                deferred.resolve(BookingsFactory.getAllBookings());
 
-                promise.then(function (data) {
-                        $scope.bookings = cleanData(data.bookings);
-                    },
-                    function () {
-                        $scope.bookings = [];
-                    });
+        $scope.types = [
+            {
+                id: 0,
+                name: "Unapproved enquiries",
+                call: BookingsFactory.getAllUnapprovedEnquiries
+
+            },
+            {
+                id: 1,
+                name: "Approved enquiries",
+                call: BookingsFactory.getAllApprovedEnquiries
+            },
+            {
+                id: 2,
+                name: "Bookings",
+                call: BookingsFactory.getAllBookings
+            }
+
+        ];
+
+        $scope.type = $scope.types[0];
+
+
+        $scope.year = 2017;
+
+        $scope.fetchBookings = function(fetchFunction){
+            var deferred = $q.defer();
+            var promise = deferred.promise;
+            deferred.resolve(fetchFunction($scope.year));
+
+            promise.then(function (data) {
+                    $scope.bookings = cleanData(data.enquiries);
+                },
+                function () {
+                    $scope.bookings = [];
+                });
+        };
+
+        $scope.selectType = function(type){
+            $scope.type = type;
+            $scope.fetchBookings(type.call);
+        };
+
+        $scope.approve = function(bookingId){
+            BookingsFactory.approveEnquiry(bookingId);
         };
 
         function cleanData(bookings){
@@ -5786,22 +5843,23 @@ bookingsModule.controller('BookingsController', ['$scope', 'BookingsFactory', '$
             for(var i = 0; i<bookings.length;i++){
                 var b = bookings[i];
 
-                b.dateFrom = new Date(b.dateFrom).toDateString();
-                b.dateTo = new Date(b.dateTo).toDateString();
-                b.timeSaved = new Date(b.timeSaved).toLocaleString();
+                b.dateFrom = new Date(b.enquiry.dateFrom).toDateString();
+                b.dateTo = new Date(b.enquiry.dateTo).toDateString();
+                b.enquiryDttm = new Date(b.enquiryDttm).toLocaleString();
 
-                if (b.depositWhen > 0)
+                if(b.approvalDttm)
+                    b.approvalDttm = new Date(b.approvalDttm).toLocaleString();
+
+                if (b.depositWhen)
                     b.depositWhen = new Date(b.depositWhen).toLocaleString();
-                else
-                    b.depositWhen = "";
 
-                if (b.unitId === 1) {
+                if (b.enquiry.unitId === 1) {
                     b.unit = "Kruno"
                 }
-                else if (b.unitId === 2) {
+                else if (b.enquiry.unitId === 2) {
                     b.unit = "Blanka"
                 }
-                else if (b.unitId === 3) {
+                else if (b.enquiry.unitId === 3) {
                     b.unit = "Djuro"
                 }
 
@@ -5810,19 +5868,47 @@ bookingsModule.controller('BookingsController', ['$scope', 'BookingsFactory', '$
             return bookings;
         }
 
-        $scope.fetchBookings();
+        $scope.fetchBookings($scope.type.call);
 
     }
 ]);
 bookingsModule.factory('BookingsFactory', ['DataService',
     function (DataService) {
-        function createGetAllBookings() {
-            return DataService.executeGetRequestWithoutParams('http://localhost:9001/v1/booking')
+
+        function createGetAllBookings(year) {
+            var filters = {};
+            filters["year"] = year;
+            return DataService.executeGetRequestWithFilters('http://localhost:9001/v1/booking', filters)
+        }
+
+        function createGetAllUnapprovedEnquiries(year) {
+            var filters = {};
+            filters["year"] = year;
+            return DataService.executeGetRequestWithFilters('http://localhost:9001/v1/enquiry/unapproved', filters)
+        }
+
+        function createGetAllApprovedEnquiries(year) {
+            var filters = {};
+            filters["year"] = year;
+            return DataService.executeGetRequestWithFilters('http://localhost:9001/v1/enquiry/approved', filters)
+        }
+
+        function createPutApproveEnquiry(bookingId) {
+            return DataService.executePutRequestWithoutPayload('http://localhost:9001/v1/booking/' + bookingId + '/authorize')
         }
 
         return {
-            getAllBookings: function () {
-                return createGetAllBookings();
+            getAllBookings: function (year) {
+                return createGetAllBookings(year);
+            },
+            getAllUnapprovedEnquiries: function (year) {
+                return createGetAllUnapprovedEnquiries(year);
+            },
+            getAllApprovedEnquiries: function (year) {
+                return createGetAllApprovedEnquiries(year);
+            },
+            approveEnquiry: function (bookingId) {
+                return createPutApproveEnquiry(bookingId);
             }
         };
     }]);

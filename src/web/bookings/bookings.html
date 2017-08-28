@@ -8,6 +8,14 @@
     </section>
 
     <section class="bookings-table">
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
+                {{type.name}}
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a ng-repeat="t in types" class="dropdown-item" href="#" ng-click="selectType(t)">{{t.name}}</a>
+            </div>
+        </div>
         <div>
             <table class="table">
                 <thead>
@@ -20,15 +28,15 @@
                     <th translate="booking_enquiry_time"></th>
                     <th translate="booking_phone_number"></th>
                     <th translate="booking_email"></th>
-                    <th translate="booking_city"></th>
                     <th translate="booking_country"></th>
                     <th translate="booking_animals"></th>
                     <th translate="booking_no_of_people"></th>
                     <th translate="booking_note"></th>
                     <th translate="booking_total_price"></th>
-                    <th translate="booking_deposit_amount"></th>
-                    <th translate="booking_deposit_currency"></th>
-                    <th translate="booking_deposit_paid"></th>
+                    <th translate="booking_approval_time" ng-if="type.id != 0"></th>
+                    <th translate="booking_deposit_amount" ng-if="type.id == 2"></th>
+                    <th translate="booking_deposit_currency" ng-if="type.id == 2"></th>
+                    <th translate="booking_deposit_paid" ng-if="type.id == 2"></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -36,20 +44,21 @@
                     <td>{{b.unit}}</td>
                     <td>{{b.dateFrom}}</td>
                     <td>{{b.dateTo}}</td>
-                    <td>{{b.name}}</td>
-                    <td>{{b.surname}}</td>
-                    <td>{{b.timeSaved}}</td>
-                    <td>{{b.phoneNumber}}</td>
-                    <td>{{b.email}}</td>
-                    <td>{{b.city}}</td>
-                    <td>{{b.country}}</td>
-                    <td>{{b.animals}}</td>
-                    <td>{{b.noOfPeople}}</td>
-                    <td>{{b.note}}</td>
+                    <td>{{b.enquiry.name}}</td>
+                    <td>{{b.enquiry.surname}}</td>
+                    <td>{{b.enquiryDttm}}</td>
+                    <td>{{b.enquiry.phoneNumber}}</td>
+                    <td>{{b.enquiry.email}}</td>
+                    <td>{{b.enquiry.country}}</td>
+                    <td>{{b.enquiry.animals}}</td>
+                    <td>{{b.enquiry.noOfPeople}}</td>
+                    <td>{{b.enquiry.note}}</td>
                     <td>{{b.totalPrice}}</td>
-                    <td>{{b.depositAmount}}</td>
-                    <td>{{b.depositCurrency}}</td>
-                    <td>{{b.depositWhen}}</td>
+                    <td ng-if="type.id == 0" ng-click="approve(b.bookingId)">Approve</td>
+                    <td ng-if="type.id != 0">{{b.approvalDttm}}</td>
+                    <td ng-if="type.id == 2">{{b.depositAmount}}</td>
+                    <td ng-if="type.id == 2">{{b.depositCurrency}}</td>
+                    <td ng-if="type.id == 2">{{b.depositWhen}}</td>
                 </tr>
                 </tbody>
             </table>

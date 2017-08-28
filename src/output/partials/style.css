@@ -358,6 +358,9 @@
 .bookings .bookings-note {
   background-color: #F6F8F8;
 }
+.bookings .dropdown-item {
+  display: block;
+}
 .bookings .bookings-table p {
   padding: 10px;
   border-radius: 5px;

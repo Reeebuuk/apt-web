@@ -99,6 +99,25 @@ sharedModule.factory('DataService', ['$http', '$q', '$log', function ($http, $q,
         return dfd.promise;
     }
 
+    function makePutRequestWithoutPayload(url)
+    {
+        var request = {
+            method : 'PUT',
+            url : url
+        };
+
+        var dfd = $q.defer();
+        $http(request).then(
+                function (responseSuccessData) {
+                    dfd.resolve(responseSuccessData.data);
+                },
+                function (responseErrorData) {
+                    dfd.reject(responseErrorData.data);
+                }
+        );
+        return dfd.promise;
+    }
+
     function makeDeleteRequest(url, id)
     {
         var request = {
@@ -133,6 +152,9 @@ sharedModule.factory('DataService', ['$http', '$q', '$log', function ($http, $q,
         },
         executePutRequest: function (url, id, payload) {
             return makePutRequest(url, id, payload);
+        },
+        executePutRequestWithoutPayload: function (url) {
+            return makePutRequestWithoutPayload(url);
         },
         executeDeleteRequest: function (url, id) {
             return makeDeleteRequest(url, id);
