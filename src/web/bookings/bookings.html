@@ -54,7 +54,7 @@
                     <td>{{b.enquiry.noOfPeople}}</td>
                     <td>{{b.enquiry.note}}</td>
                     <td>{{b.totalPrice}}</td>
-                    <td ng-if="type.id == 0" ng-click="approve(b.bookingId)">Approve</td>
+                    <td ng-if="type.id == 0" ng-click="approve(b.enquiryId)">Approve</td>
                     <td ng-if="type.id != 0">{{b.approvalDttm}}</td>
                     <td ng-if="type.id == 2">{{b.depositAmount}}</td>
                     <td ng-if="type.id == 2">{{b.depositCurrency}}</td>

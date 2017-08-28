@@ -45,8 +45,8 @@ bookingsModule.controller('BookingsController', ['$scope', 'BookingsFactory', '$
             $scope.fetchBookings(type.call);
         };
 
-        $scope.approve = function(bookingId){
-            BookingsFactory.approveEnquiry(bookingId);
+        $scope.approve = function(enquiryId){
+            BookingsFactory.approveEnquiry(enquiryId);
         };
 
         function cleanData(bookings){

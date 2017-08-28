@@ -5834,8 +5834,8 @@ bookingsModule.controller('BookingsController', ['$scope', 'BookingsFactory', '$
             $scope.fetchBookings(type.call);
         };
 
-        $scope.approve = function(bookingId){
-            BookingsFactory.approveEnquiry(bookingId);
+        $scope.approve = function(enquiryId){
+            BookingsFactory.approveEnquiry(enquiryId);
         };
 
         function cleanData(bookings){
@@ -5878,7 +5878,7 @@ bookingsModule.factory('BookingsFactory', ['DataService',
         function createGetAllBookings(year) {
             var filters = {};
             filters["year"] = year;
-            return DataService.executeGetRequestWithFilters('http://localhost:9001/v1/booking', filters)
+            return DataService.executeGetRequestWithFilters('http://localhost:9001/v1/enquiry/booked', filters)
         }
 
         function createGetAllUnapprovedEnquiries(year) {
@@ -5893,8 +5893,8 @@ bookingsModule.factory('BookingsFactory', ['DataService',
             return DataService.executeGetRequestWithFilters('http://localhost:9001/v1/enquiry/approved', filters)
         }
 
-        function createPutApproveEnquiry(bookingId) {
-            return DataService.executePutRequestWithoutPayload('http://localhost:9001/v1/booking/' + bookingId + '/authorize')
+        function createPutApproveEnquiry(enquiryId) {
+            return DataService.executePutRequestWithoutPayload('http://localhost:9001/v1/booking/' + enquiryId + '/authorize')
         }
 
         return {
@@ -5907,8 +5907,8 @@ bookingsModule.factory('BookingsFactory', ['DataService',
             getAllApprovedEnquiries: function (year) {
                 return createGetAllApprovedEnquiries(year);
             },
-            approveEnquiry: function (bookingId) {
-                return createPutApproveEnquiry(bookingId);
+            approveEnquiry: function (enquiryId) {
+                return createPutApproveEnquiry(enquiryId);
             }
         };
     }]);
