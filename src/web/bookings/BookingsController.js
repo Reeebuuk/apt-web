@@ -1,6 +1,26 @@
 bookingsModule.controller('BookingsController', ['$scope', 'BookingsFactory', '$q',
     function ($scope, BookingsFactory, $q) {
 
+        $scope.deposit = {
+            amount: 100,
+            currency: "EUR",
+            userId: "user",
+            enquiryId: 0
+        };
+
+        $scope.saveDeposit = function(enquiryId){
+            $scope.deposit.enquiryId = enquiryId;
+            var deferred = $q.defer();
+            var promise = deferred.promise;
+            deferred.resolve(BookingsFactory.saveDeposit($scope.deposit));
+
+            promise.then(function (data) {
+                    $scope.depositSaved = true;
+                },
+                function () {
+                    $scope.depositSaved = false;
+                });
+        };
 
         $scope.types = [
             {

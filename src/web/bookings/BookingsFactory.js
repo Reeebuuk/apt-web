@@ -20,7 +20,11 @@ bookingsModule.factory('BookingsFactory', ['DataService',
         }
 
         function createPutApproveEnquiry(enquiryId) {
-            return DataService.executePutRequestWithoutPayload('http://localhost:9001/v1/booking/' + enquiryId + '/authorize')
+            return DataService.executePutRequestWithoutPayload('http://localhost:9001/v1/enquiry/' + enquiryId + '/authorize')
+        }
+
+        function createPostSaveDeposit(payload) {
+            return DataService.executePostRequest('http://localhost:9001/v1/enquiry/depositPaid', payload)
         }
 
         return {
@@ -35,6 +39,9 @@ bookingsModule.factory('BookingsFactory', ['DataService',
             },
             approveEnquiry: function (enquiryId) {
                 return createPutApproveEnquiry(enquiryId);
+            },
+            saveDeposit: function (payload){
+                return createPostSaveDeposit(payload);
             }
         };
     }]);

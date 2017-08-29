@@ -9,7 +9,8 @@
 
     <section class="bookings-table">
         <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                    data-toggle="dropdown" aria-expanded="false">
                 {{type.name}}
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -40,26 +41,41 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="b in bookings">
-                    <td>{{b.unit}}</td>
-                    <td>{{b.dateFrom}}</td>
-                    <td>{{b.dateTo}}</td>
-                    <td>{{b.enquiry.name}}</td>
-                    <td>{{b.enquiry.surname}}</td>
-                    <td>{{b.enquiryDttm}}</td>
-                    <td>{{b.enquiry.phoneNumber}}</td>
-                    <td>{{b.enquiry.email}}</td>
-                    <td>{{b.enquiry.country}}</td>
-                    <td>{{b.enquiry.animals}}</td>
-                    <td>{{b.enquiry.noOfPeople}}</td>
-                    <td>{{b.enquiry.note}}</td>
-                    <td>{{b.totalPrice}}</td>
-                    <td ng-if="type.id == 0" ng-click="approve(b.enquiryId)">Approve</td>
-                    <td ng-if="type.id != 0">{{b.approvalDttm}}</td>
-                    <td ng-if="type.id == 2">{{b.depositAmount}}</td>
-                    <td ng-if="type.id == 2">{{b.depositCurrency}}</td>
-                    <td ng-if="type.id == 2">{{b.depositWhen}}</td>
-                </tr>
+                    <tr ng-repeat="b in bookings">
+
+                            <td>{{b.unit}}</td>
+                            <td>{{b.dateFrom}}</td>
+                            <td>{{b.dateTo}}</td>
+                            <td>{{b.enquiry.name}}</td>
+                            <td>{{b.enquiry.surname}}</td>
+                            <td>{{b.enquiryDttm}}</td>
+                            <td>{{b.enquiry.phoneNumber}}</td>
+                            <td>{{b.enquiry.email}}</td>
+                            <td>{{b.enquiry.country}}</td>
+                            <td>{{b.enquiry.animals}}</td>
+                            <td>{{b.enquiry.noOfPeople}}</td>
+                            <td>{{b.enquiry.note}}</td>
+                            <td>{{b.totalPrice}}</td>
+                            <td ng-if="type.id == 0" ng-click="approve(b.enquiryId)">Approve</td>
+                            <td ng-if="type.id != 0">{{b.approvalDttm}}</td>
+                            <td ng-if="type.id == 2">{{b.depositAmount}}</td>
+                            <td ng-if="type.id == 2">{{b.depositCurrency}}</td>
+                            <td ng-if="type.id == 2">{{b.depositWhen}}</td>
+                            <td ng-if="type.id == 1">
+                                <input class="basic-slide"
+                                       ng-model="deposit.amount" ng-required="true"/>
+                                <input class="basic-slide"
+                                       ng-model="deposit.currency" ng-required="true"/>
+
+                                <div ng-click="saveDeposit(b.enquiryId)">Send</div>
+                            </td>
+                    </tr>
+
+
+
+                    <!--<tr ng-repeat-end>-->
+                        <!---->
+                    <!--</tr>-->
                 </tbody>
             </table>
         </div>

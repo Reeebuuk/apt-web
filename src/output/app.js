@@ -3331,7 +3331,7 @@ bookingModule.controller('BookingController', ['$scope', 'BookingFactory', '$q',
 bookingModule.factory('BookingFactory', ['DataService',
     function (DataService) {
         function createSendBooking(payload) {
-            return DataService.executePostRequest('http://localhost:9001/v1/booking', payload)
+            return DataService.executePostRequest('http://localhost:9001/v1/enquiry', payload)
         }
 
         function createGetBookedDays(apartmentId) {
@@ -5790,6 +5790,26 @@ boatModule.factory('BoatFactory', ['PictureSizeFactory',
 bookingsModule.controller('BookingsController', ['$scope', 'BookingsFactory', '$q',
     function ($scope, BookingsFactory, $q) {
 
+        $scope.deposit = {
+            amount: 100,
+            currency: "EUR",
+            userId: "user",
+            enquiryId: 0
+        };
+
+        $scope.saveDeposit = function(enquiryId){
+            $scope.deposit.enquiryId = enquiryId;
+            var deferred = $q.defer();
+            var promise = deferred.promise;
+            deferred.resolve(BookingsFactory.saveDeposit($scope.deposit));
+
+            promise.then(function (data) {
+                    $scope.depositSaved = true;
+                },
+                function () {
+                    $scope.depositSaved = false;
+                });
+        };
 
         $scope.types = [
             {
@@ -5894,7 +5914,11 @@ bookingsModule.factory('BookingsFactory', ['DataService',
         }
 
         function createPutApproveEnquiry(enquiryId) {
-            return DataService.executePutRequestWithoutPayload('http://localhost:9001/v1/booking/' + enquiryId + '/authorize')
+            return DataService.executePutRequestWithoutPayload('http://localhost:9001/v1/enquiry/' + enquiryId + '/authorize')
+        }
+
+        function createPostSaveDeposit(payload) {
+            return DataService.executePostRequest('http://localhost:9001/v1/enquiry/depositPaid', payload)
         }
 
         return {
@@ -5909,6 +5933,9 @@ bookingsModule.factory('BookingsFactory', ['DataService',
             },
             approveEnquiry: function (enquiryId) {
                 return createPutApproveEnquiry(enquiryId);
+            },
+            saveDeposit: function (payload){
+                return createPostSaveDeposit(payload);
             }
         };
     }]);
