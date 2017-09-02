@@ -2929,8 +2929,7 @@ sharedModule.factory('PricingFactory', ['DataService',
             var payload = {
                 from: from.getTime(),
                 to: to.getTime(),
-                unitId: id,
-                userId: "user"
+                unitId: id
             };
 
             return DataService.executePostRequest('http://localhost:9001/v1/price/calculate', payload)
@@ -5793,7 +5792,6 @@ bookingsModule.controller('BookingsController', ['$scope', 'BookingsFactory', '$
         $scope.deposit = {
             amount: 100,
             currency: "EUR",
-            userId: "user",
             enquiryId: 0
         };
 

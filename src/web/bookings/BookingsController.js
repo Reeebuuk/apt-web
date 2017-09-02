@@ -4,7 +4,6 @@ bookingsModule.controller('BookingsController', ['$scope', 'BookingsFactory', '$
         $scope.deposit = {
             amount: 100,
             currency: "EUR",
-            userId: "user",
             enquiryId: 0
         };
 
