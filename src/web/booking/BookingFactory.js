@@ -16,15 +16,19 @@ bookingModule.factory('BookingFactory', ['DataService',
             var yyyy = date.getFullYear().toString();
             var mm = (date.getMonth() + 1).toString();
             var dd = date.getDate().toString();
-            return (dd[1] ? dd : "0" + dd[0]) + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + yyyy;
+            // return (dd[1] ? dd : "0" + dd[0]) + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + yyyy;
+            return yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]);
         }
 
         function dayFromClass(date, bookedDays) {
             var first = false;
             var last = false;
             var full = false;
+            console.log(bookedDays);
+
             for (var i = 0; i < bookedDays.length; i++) {
-                if (mmddyyyy(date) === bookedDays[i].date) {
+                if (mmddyyyy(date) === bookedDays[i].day) {
+                    console.log(bookedDays[i].day);
                     if (bookedDays[i].firstDay) {
                         first = true;
                     }
@@ -45,7 +49,7 @@ bookingModule.factory('BookingFactory', ['DataService',
                 var last = false;
                 var full = false;
                 for (var i = 0; i < bookedDays.length; i++) {
-                    if (mmddyyyy(date) === bookedDays[i].date) {
+                    if (mmddyyyy(date) === bookedDays[i].day) {
                         if (bookedDays[i].firstDay) {
                             first = true;
                         }
@@ -68,7 +72,7 @@ bookingModule.factory('BookingFactory', ['DataService',
             var last = false;
             var full = false;
             for (var i = 0; i < bookedDays.length; i++) {
-                if (mmddyyyy(date) === bookedDays[i].date) {
+                if (mmddyyyy(date) === bookedDays[i].day) {
                     if (bookedDays[i].firstDay) {
                         first = true;
                     }

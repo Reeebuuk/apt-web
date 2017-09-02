@@ -10,7 +10,7 @@ bookingModule.controller('BookingController', ['$scope', 'BookingFactory', '$q',
             deferred.resolve(BookingFactory.getBookedDays($scope.booking.unitId));
 
             promise.then(function (data) {
-                    $scope.bookedDays = data;
+                    $scope.bookedDays = data.bookedDays;
                     $scope.showCalendars = true;
                 },
                 function () {

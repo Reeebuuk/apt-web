@@ -3199,7 +3199,7 @@ bookingModule.controller('BookingController', ['$scope', 'BookingFactory', '$q',
             deferred.resolve(BookingFactory.getBookedDays($scope.booking.unitId));
 
             promise.then(function (data) {
-                    $scope.bookedDays = data;
+                    $scope.bookedDays = data.bookedDays;
                     $scope.showCalendars = true;
                 },
                 function () {
@@ -3345,7 +3345,8 @@ bookingModule.factory('BookingFactory', ['DataService',
             var yyyy = date.getFullYear().toString();
             var mm = (date.getMonth() + 1).toString();
             var dd = date.getDate().toString();
-            return (dd[1] ? dd : "0" + dd[0]) + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + yyyy;
+            // return (dd[1] ? dd : "0" + dd[0]) + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + yyyy;
+            return yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]);
         }
 
         function dayFromClass(date, bookedDays) {
@@ -3353,7 +3354,7 @@ bookingModule.factory('BookingFactory', ['DataService',
             var last = false;
             var full = false;
             for (var i = 0; i < bookedDays.length; i++) {
-                if (mmddyyyy(date) === bookedDays[i].date) {
+                if (mmddyyyy(date) === bookedDays[i].day) {
                     if (bookedDays[i].firstDay) {
                         first = true;
                     }
@@ -3374,7 +3375,7 @@ bookingModule.factory('BookingFactory', ['DataService',
                 var last = false;
                 var full = false;
                 for (var i = 0; i < bookedDays.length; i++) {
-                    if (mmddyyyy(date) === bookedDays[i].date) {
+                    if (mmddyyyy(date) === bookedDays[i].day) {
                         if (bookedDays[i].firstDay) {
                             first = true;
                         }
@@ -3397,7 +3398,7 @@ bookingModule.factory('BookingFactory', ['DataService',
             var last = false;
             var full = false;
             for (var i = 0; i < bookedDays.length; i++) {
-                if (mmddyyyy(date) === bookedDays[i].date) {
+                if (mmddyyyy(date) === bookedDays[i].day) {
                     if (bookedDays[i].firstDay) {
                         first = true;
                     }
@@ -3534,7 +3535,7 @@ apartmentsModule.controller('ApartmentsController', ['$scope', 'ApartmentsFactor
             deferred.resolve(BookingFactory.getBookedDays(apartmentId));
 
             promise.then(function (data) {
-                    $scope.bookedDays = data;
+                    $scope.bookedDays = data.bookedDays;
                     $scope.showCalendars = true;
                 },
                 function () {

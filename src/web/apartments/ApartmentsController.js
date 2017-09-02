@@ -87,7 +87,7 @@ apartmentsModule.controller('ApartmentsController', ['$scope', 'ApartmentsFactor
             deferred.resolve(BookingFactory.getBookedDays(apartmentId));
 
             promise.then(function (data) {
-                    $scope.bookedDays = data;
+                    $scope.bookedDays = data.bookedDays;
                     $scope.showCalendars = true;
                 },
                 function () {
